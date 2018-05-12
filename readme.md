@@ -11,7 +11,18 @@ To run this workshop, you'll need to do the following
 - Have the following packages installed:
     - `tidyverse` and `fivethirtyeight`
     
-Remember, we will adhere the code of conduct for this conference. Be respectful and let's learn together.
+Remember, in this workshop we will adhere the [code of conduct for this conference](https://cascadiarconf.com/coc/). Be respectful and let's learn together.
 
+## Outline of this Workshop
 
+1. Use `dplyr` for data wrangling / summarizing
+    - Subsetting rows with `filter()`
+    - Creating a numerical summary with `summarize()`
+    - Building summaries across groups of one or more variable with `group_by() %>% summarize()`
+    - Design a new variable using `mutate()`
+    - Sort the data based on one or more variables with `arrange()`
+    - Using the pipe `%>%` to chain it all together 
+1. Importing data using `readr`, `readxl`, and `haven` packages
+1. What is tidy data?
+1. Using the `tidyr` package to reshape/tidy/make data long
 
