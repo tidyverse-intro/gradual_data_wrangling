@@ -1,0 +1,46 @@
+---
+title: "Part 2 - Loading data with `readxl`, `haven` and `readr`"
+author: "Chester Ismay and Ted Laderas"
+output: 
+  html_document:
+    code_download: true
+    code_folding: hide
+    df_print: paged
+---
+
+```{r include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(message=FALSE)
+filter <- dplyr::filter
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, fig.width=9.5, fig.height=4.5, comment=NA, rows.print=16, out.width = "\\textwidth")
+theme_set(theme_gray(base_size = 20))
+```
+
+In this section, we'll load in external data using several built in packages to the `tidyverse`. In particular, we'll cover:
+
+1. Loading excel spreadsheets with `readxl`
+2. Loading datafiles from SAS/SPSS with `haven`
+3. Loading in flat text file data, comma separated, 
+
+## Some things to keep in mind
+
+For the most part, we will be loading in our data as `data.frames` or `tbl`s with these packages. 
+
+One thing to keep in mind is that oftentimes, files have a bit of explanatory text and the header is not always going to be on the first line in our files.
+
+# `readxl`
+
+The `readxl` package handles loading both 2008 (xlsx) and earlier excel files (xls).
+
+# `readr`: reading in flat files
+
+Flat files, such as comma-separated-value (.csv), and other types of 
+
+## `read_csv`: Reading in comma separated value files
+
+## `read_delim`: Your general purpose flat file reader
+
+# `haven`
+
+
+

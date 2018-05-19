@@ -4,7 +4,7 @@ author: Chester Ismay and Ted Laderas
 output: github_document
 ---
 
-Welcome! This is a workshop for the Cascadia R conference that is meant to be a gentle introduction to data wrangling using the `tidyverse` packages. You'll find that there's lots of functions in the `tidyverse` that help solve your common headaches with working with data and can even make data wrangling more fun!
+Welcome! This is a workshop for the Cascadia R conference that is meant to be a gentle introduction to data wrangling using the `tidyverse` packages. You'll find that there's lots of functions in the `tidyverse` that help solve your common headaches with working with data and can even make data wrangling somewhat fun!
 
 ## Prerequisites
 
@@ -14,6 +14,10 @@ To participate in this workshop, you'll need to do the following:
 - Be familiar with the [basics of the RStudio Interface](https://ismayc.github.io/rbasics-book/3-rstudiobasics.html)
 - Have the following packages installed:
     - `tidyverse` and `fivethirtyeight`
+    
+```
+install.packages("tidyverse", "fivethirtyeight", "gapminder")
+```
     
 Remember, in this workshop we will adhere the [code of conduct for this conference](https://cascadiarconf.com/coc/). Be respectful and let's learn together.
 
@@ -29,4 +33,5 @@ Remember, in this workshop we will adhere the [code of conduct for this conferen
 1. Importing data using `readr`, `readxl`, and `haven` packages
 1. What is tidy data?
 1. Using the `tidyr` package to reshape/tidy/make data long
+1. Optional: Factors with `forcats` , dates with `lubridate`, and strings with `stringr`
 

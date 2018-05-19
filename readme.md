@@ -14,6 +14,10 @@ To participate in this workshop, you'll need to do the following:
 -   Have the following packages installed:
     -   `tidyverse` and `fivethirtyeight`
 
+<!-- -->
+
+    install.packages("tidyverse", "fivethirtyeight", "gapminder")
+
 Remember, in this workshop we will adhere the [code of conduct for this conference](https://cascadiarconf.com/coc/). Be respectful and let's learn together.
 
 Outline of this Workshop
@@ -29,3 +33,4 @@ Outline of this Workshop
 2.  Importing data using `readr`, `readxl`, and `haven` packages
 3.  What is tidy data?
 4.  Using the `tidyr` package to reshape/tidy/make data long
+5.  Optional: Factors with `forcats` , dates with `lubridate`, and strings with `stringr`
