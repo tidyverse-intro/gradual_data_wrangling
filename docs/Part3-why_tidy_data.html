@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Ted Laderas and Chester Ismay" />
+
+
+<title>Tidy Data: Why and How</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Part3-why_tidy_data.Rmd");
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Cascadia R 2018 - Data Wrangling workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Part1-dplyr_intro.html">Part 1</a>
+</li>
+<li>
+  <a href="Part2-loading_data.html">Part 2</a>
+</li>
+<li>
+  <a href="Part3-why_tidy_data.html">Part 3</a>
+</li>
+<li>
+  <a href="Part4_factors_dates_strings.Rmd">(Extra) Part 4</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Tidy Data: Why and How</h1>
+<h4 class="author"><em>Ted Laderas and Chester Ismay</em></h4>
+
+</div>
+
+
+<div id="what-is-tidy-data" class="section level2">
+<h2>What is Tidy Data?</h2>
+<ul>
+<li>each row corresponds to an observation</li>
+<li>each variable is a column</li>
+<li>each type of observation is in a different table</li>
+</ul>
+<div class="figure">
+<img src="figs/tidy-1.png" />
+
+</div>
+</div>
+<div id="why-tidy-data" class="section level2">
+<h2>Why Tidy Data?</h2>
+<p>Tidy data enables us to do lots of things!</p>
+<ol style="list-style-type: decimal">
+<li>Great ggplots</li>
+<li>Summarize/slice the data in multiple ways</li>
+<li>Enable Exploratory Data Analysis</li>
+<li>Ensure assumptions are met for methods</li>
+<li>Enable Confirmatory Data Analysis</li>
+</ol>
+</div>
+<div id="beware-of-columns-masquerading-as-variables" class="section level2">
+<h2>Beware of columns masquerading as variables!</h2>
+<pre class="r"><code>library(tidyverse)
+library(readr)
+fertility_data &lt;- read_csv(&quot;data/total_fertility.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   `Total fertility rate` = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>fertility_data</code></pre>
+<pre><code>## # A tibble: 260 x 217
+##    `Total fertility rate` `1800` `1801` `1802` `1803` `1804` `1805` `1806`
+##    &lt;chr&gt;                   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Abkhazia                NA     NA     NA     NA     NA     NA     NA   
+##  2 Afghanistan              7.00   7.00   7.00   7.00   7.00   7.00   7.00
+##  3 Akrotiri and Dhekelia   NA     NA     NA     NA     NA     NA     NA   
+##  4 Albania                  4.60   4.60   4.60   4.60   4.60   4.60   4.60
+##  5 Algeria                  6.99   6.99   6.99   6.99   6.99   6.99   6.99
+##  6 American Samoa          NA     NA     NA     NA     NA     NA     NA   
+##  7 Andorra                 NA     NA     NA     NA     NA     NA     NA   
+##  8 Angola                   6.93   6.93   6.93   6.93   6.93   6.93   6.93
+##  9 Anguilla                NA     NA     NA     NA     NA     NA     NA   
+## 10 Antigua and Barbuda      5.00   5.00   4.99   4.99   4.99   4.98   4.98
+## # ... with 250 more rows, and 209 more variables: `1807` &lt;dbl&gt;,
+## #   `1808` &lt;dbl&gt;, `1809` &lt;dbl&gt;, `1810` &lt;dbl&gt;, `1811` &lt;dbl&gt;, `1812` &lt;dbl&gt;,
+## #   `1813` &lt;dbl&gt;, `1814` &lt;dbl&gt;, `1815` &lt;dbl&gt;, `1816` &lt;dbl&gt;, `1817` &lt;dbl&gt;,
+## #   `1818` &lt;dbl&gt;, `1819` &lt;dbl&gt;, `1820` &lt;dbl&gt;, `1821` &lt;dbl&gt;, `1822` &lt;dbl&gt;,
+## #   `1823` &lt;dbl&gt;, `1824` &lt;dbl&gt;, `1825` &lt;dbl&gt;, `1826` &lt;dbl&gt;, `1827` &lt;dbl&gt;,
+## #   `1828` &lt;dbl&gt;, `1829` &lt;dbl&gt;, `1830` &lt;dbl&gt;, `1831` &lt;dbl&gt;, `1832` &lt;dbl&gt;,
+## #   `1833` &lt;dbl&gt;, `1834` &lt;dbl&gt;, `1835` &lt;dbl&gt;, `1836` &lt;dbl&gt;, `1837` &lt;dbl&gt;,
+## #   `1838` &lt;dbl&gt;, `1839` &lt;dbl&gt;, `1840` &lt;dbl&gt;, `1841` &lt;dbl&gt;, `1842` &lt;dbl&gt;,
+## #   `1843` &lt;dbl&gt;, `1844` &lt;dbl&gt;, `1845` &lt;dbl&gt;, `1846` &lt;dbl&gt;, `1847` &lt;dbl&gt;,
+## #   `1848` &lt;dbl&gt;, `1849` &lt;dbl&gt;, `1850` &lt;dbl&gt;, `1851` &lt;dbl&gt;, `1852` &lt;dbl&gt;,
+## #   `1853` &lt;dbl&gt;, `1854` &lt;dbl&gt;, `1855` &lt;dbl&gt;, `1856` &lt;dbl&gt;, `1857` &lt;dbl&gt;,
+## #   `1858` &lt;dbl&gt;, `1859` &lt;dbl&gt;, `1860` &lt;dbl&gt;, `1861` &lt;dbl&gt;, `1862` &lt;dbl&gt;,
+## #   `1863` &lt;dbl&gt;, `1864` &lt;dbl&gt;, `1865` &lt;dbl&gt;, `1866` &lt;dbl&gt;, `1867` &lt;dbl&gt;,
+## #   `1868` &lt;dbl&gt;, `1869` &lt;dbl&gt;, `1870` &lt;dbl&gt;, `1871` &lt;dbl&gt;, `1872` &lt;dbl&gt;,
+## #   `1873` &lt;dbl&gt;, `1874` &lt;dbl&gt;, `1875` &lt;dbl&gt;, `1876` &lt;dbl&gt;, `1877` &lt;dbl&gt;,
+## #   `1878` &lt;dbl&gt;, `1879` &lt;dbl&gt;, `1880` &lt;dbl&gt;, `1881` &lt;dbl&gt;, `1882` &lt;dbl&gt;,
+## #   `1883` &lt;dbl&gt;, `1884` &lt;dbl&gt;, `1885` &lt;dbl&gt;, `1886` &lt;dbl&gt;, `1887` &lt;dbl&gt;,
+## #   `1888` &lt;dbl&gt;, `1889` &lt;dbl&gt;, `1890` &lt;dbl&gt;, `1891` &lt;dbl&gt;, `1892` &lt;dbl&gt;,
+## #   `1893` &lt;dbl&gt;, `1894` &lt;dbl&gt;, `1895` &lt;dbl&gt;, `1896` &lt;dbl&gt;, `1897` &lt;dbl&gt;,
+## #   `1898` &lt;dbl&gt;, `1899` &lt;dbl&gt;, `1900` &lt;dbl&gt;, `1901` &lt;dbl&gt;, `1902` &lt;dbl&gt;,
+## #   `1903` &lt;dbl&gt;, `1904` &lt;dbl&gt;, `1905` &lt;dbl&gt;, `1906` &lt;dbl&gt;, …</code></pre>
+<p>These columns are actually categories!</p>
+<p>Ask yourself: do these columns go together as a single observation for your analysis?</p>
+<p>Also ask yourself: What is the unit of observation?</p>
+</div>
+<div id="making-data-tidy-gather" class="section level2">
+<h2>Making data tidy: <code>gather()</code></h2>
+<p>Use <code>gather()</code> when you need to make a bunch of columns into one column. In other words, when you want to convert “wide data” to “long data.”</p>
+<pre class="r"><code># gather() has three standard arguments: data, key, and value
+# data is usually loaded via the %&gt;%
+# key is what you want your new categorical column to be named
+# value is for the actual values in the columns
+
+# We don&#39;t want the `Total fertility rate` column to be included as part of the
+# gather() operation, so we use the `-` notation to exclude it.
+
+fertility_tidy &lt;- fertility_data %&gt;% 
+  gather(key = &quot;Year&quot;, value = &quot;fertilityRate&quot;, -`Total fertility rate`) %&gt;% 
+  # Re-arrange and rename columns
+  select(Country = `Total fertility rate`, Year, fertilityRate) %&gt;% 
+  # Remove rows with missing values 
+  # (there are countries that have little to no information)
+  na.omit()
+
+head(fertility_tidy)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   Country             Year  fertilityRate
+##   &lt;chr&gt;               &lt;chr&gt;         &lt;dbl&gt;
+## 1 Afghanistan         1800           7.00
+## 2 Albania             1800           4.60
+## 3 Algeria             1800           6.99
+## 4 Angola              1800           6.93
+## 5 Antigua and Barbuda 1800           5.00
+## 6 Argentina           1800           6.80</code></pre>
+</div>
+<div id="your-task-using-this-tidy-data" class="section level2">
+<h2>Your Task: using this tidy data</h2>
+<div id="exercise-3.1" class="section level3">
+<h3>Exercise 3.1</h3>
+<p>How would we find the average fertility within a year? How about from 1860 on?</p>
+<pre class="r"><code># Write and check your answer here</code></pre>
+</div>
+</div>
+<div id="making-one-column-into-many-spread" class="section level2">
+<h2>Making one column into many: <code>spread()</code></h2>
+<p>Sometimes, you will need to go the other direction: take a long format dataset and make it into a more matrix-like format. This is necessary for such functions such as <code>heatmap()</code>.</p>
+<p>Let’s change things around and make the <code>Country</code> column into the variables (columns) in the dataset.</p>
+<pre class="r"><code>fertility_wide &lt;- fertility_tidy %&gt;% 
+  # spread() takes a key (Country) and value (fertilityRate) argument
+  # Note that we don&#39;t quote here, whereas we do in gather()
+  spread(key = Country, value = fertilityRate) 
+
+fertility_wide</code></pre>
+<pre><code>## # A tibble: 216 x 202
+##    Year  Afghanistan Albania Algeria Angola `Antigua and Barbud… Argentina
+##    &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+##  1 1800           7.    4.60    6.99   6.93                 5.00      6.80
+##  2 1801           7.    4.60    6.99   6.93                 5.00      6.80
+##  3 1802           7.    4.60    6.99   6.93                 4.99      6.80
+##  4 1803           7.    4.60    6.99   6.93                 4.99      6.80
+##  5 1804           7.    4.60    6.99   6.93                 4.99      6.80
+##  6 1805           7.    4.60    6.99   6.93                 4.98      6.80
+##  7 1806           7.    4.60    6.99   6.93                 4.98      6.80
+##  8 1807           7.    4.60    6.99   6.94                 4.97      6.80
+##  9 1808           7.    4.60    6.99   6.94                 4.97      6.80
+## 10 1809           7.    4.60    6.99   6.94                 4.97      6.80
+## # ... with 206 more rows, and 195 more variables: Armenia &lt;dbl&gt;,
+## #   Aruba &lt;dbl&gt;, Australia &lt;dbl&gt;, Austria &lt;dbl&gt;, Azerbaijan &lt;dbl&gt;,
+## #   Bahamas &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Bangladesh &lt;dbl&gt;, Barbados &lt;dbl&gt;,
+## #   Belarus &lt;dbl&gt;, Belgium &lt;dbl&gt;, Belize &lt;dbl&gt;, Benin &lt;dbl&gt;, Bhutan &lt;dbl&gt;,
+## #   Bolivia &lt;dbl&gt;, `Bosnia and Herzegovina` &lt;dbl&gt;, Botswana &lt;dbl&gt;,
+## #   Brazil &lt;dbl&gt;, Brunei &lt;dbl&gt;, Bulgaria &lt;dbl&gt;, `Burkina Faso` &lt;dbl&gt;,
+## #   Burundi &lt;dbl&gt;, Cambodia &lt;dbl&gt;, Cameroon &lt;dbl&gt;, Canada &lt;dbl&gt;, `Cape
+## #   Verde` &lt;dbl&gt;, `Central African Republic` &lt;dbl&gt;, Chad &lt;dbl&gt;, `Channel
+## #   Islands` &lt;dbl&gt;, Chile &lt;dbl&gt;, China &lt;dbl&gt;, Colombia &lt;dbl&gt;,
+## #   Comoros &lt;dbl&gt;, `Congo, Dem. Rep.` &lt;dbl&gt;, `Congo, Rep.` &lt;dbl&gt;, `Costa
+## #   Rica` &lt;dbl&gt;, `Cote d&#39;Ivoire` &lt;dbl&gt;, Croatia &lt;dbl&gt;, Cuba &lt;dbl&gt;,
+## #   Cyprus &lt;dbl&gt;, `Czech Republic` &lt;dbl&gt;, Denmark &lt;dbl&gt;, Djibouti &lt;dbl&gt;,
+## #   `Dominican Republic` &lt;dbl&gt;, Ecuador &lt;dbl&gt;, Egypt &lt;dbl&gt;, `El
+## #   Salvador` &lt;dbl&gt;, `Equatorial Guinea` &lt;dbl&gt;, Eritrea &lt;dbl&gt;,
+## #   Estonia &lt;dbl&gt;, Ethiopia &lt;dbl&gt;, Fiji &lt;dbl&gt;, Finland &lt;dbl&gt;,
+## #   France &lt;dbl&gt;, `French Guiana` &lt;dbl&gt;, `French Polynesia` &lt;dbl&gt;,
+## #   Gabon &lt;dbl&gt;, Gambia &lt;dbl&gt;, Georgia &lt;dbl&gt;, Germany &lt;dbl&gt;, Ghana &lt;dbl&gt;,
+## #   Greece &lt;dbl&gt;, Greenland &lt;dbl&gt;, Grenada &lt;dbl&gt;, Guadeloupe &lt;dbl&gt;,
+## #   Guam &lt;dbl&gt;, Guatemala &lt;dbl&gt;, Guinea &lt;dbl&gt;, `Guinea-Bissau` &lt;dbl&gt;,
+## #   Guyana &lt;dbl&gt;, Haiti &lt;dbl&gt;, Honduras &lt;dbl&gt;, `Hong Kong, China` &lt;dbl&gt;,
+## #   Hungary &lt;dbl&gt;, Iceland &lt;dbl&gt;, India &lt;dbl&gt;, Indonesia &lt;dbl&gt;,
+## #   Iran &lt;dbl&gt;, Iraq &lt;dbl&gt;, Ireland &lt;dbl&gt;, Israel &lt;dbl&gt;, Italy &lt;dbl&gt;,
+## #   Jamaica &lt;dbl&gt;, Japan &lt;dbl&gt;, Jordan &lt;dbl&gt;, Kazakhstan &lt;dbl&gt;,
+## #   Kenya &lt;dbl&gt;, Kiribati &lt;dbl&gt;, Kuwait &lt;dbl&gt;, `Kyrgyz Republic` &lt;dbl&gt;,
+## #   Lao &lt;dbl&gt;, Latvia &lt;dbl&gt;, Lebanon &lt;dbl&gt;, Lesotho &lt;dbl&gt;, Liberia &lt;dbl&gt;,
+## #   Libya &lt;dbl&gt;, Lithuania &lt;dbl&gt;, Luxembourg &lt;dbl&gt;, `Macao, China` &lt;dbl&gt;,
+## #   `Macedonia, FYR` &lt;dbl&gt;, …</code></pre>
+</div>
+<div id="your-task---who-is-the-most-democratic" class="section level2">
+<h2>Your Task - Who is the most democratic?</h2>
+<p>Load the <code>dem_score.csv</code> dataset in the <code>data</code> folder. Tidy it up. Which countries had the highest democracy score in 2007?</p>
+<p>Hint: you’ll have to use your <code>dplyr</code> skills as well.</p>
+<pre class="r"><code>#enter your answer here</code></pre>
+</div>
+<div id="whats-next" class="section level2">
+<h2>What’s Next?</h2>
+<p>We’ve showed you the bare basics of data wrangling in the tidyverse. There’s a ton more!</p>
+<p>Where to go next?</p>
+<ul>
+<li><a href="http://tidyverse.org" class="uri">http://tidyverse.org</a>
+<ul>
+<li><code>lubridate</code> for dealing with dates</li>
+<li><code>stringr</code> for manipulating strings</li>
+<li><code>forcats</code> for working with categorical data</li>
+</ul></li>
+<li>Tidyverse community packages
+<ul>
+<li><a href="http://naniar.njtierney.com/"><code>naniar</code></a> for tidy handling of missing data</li>
+<li><a href="https://infer.netlify.com"><code>infer</code></a> for tidy statistical inference<br />
+</li>
+</ul></li>
+<li>ModernDive (by Chester and Albert Kim): <a href="http://www.moderndive.com" class="uri">http://www.moderndive.com</a></li>
+<li>R for Data Science: <a href="http://r4ds.had.co.nz" class="uri">http://r4ds.had.co.nz</a></li>
+<li><a href="https://www.datacamp.com/courses/tech:r">Variety of courses on DataCamp</a></li>
+</ul>
+<hr />
+</div>
+<div id="closing-project" class="section level1">
+<h1>Closing project</h1>
+<ul>
+<li>Try to load in your own data and use <code>tidyr</code> to get it into the right format if needed to use <code>dplyr</code> to do some data wrangling. If you don’t have your own data do some analyses on the <code>periodic_table</code> data you loaded in before using <code>dplyr</code>. We’ll be around to answer questions. Thanks much!</li>
+</ul>
+<hr />
+<div id="keep-in-touch" class="section level2">
+<h2>Keep in Touch!</h2>
+<p>Ted: <span class="citation">@tladeras</span> <a href="https://laderast.github.io" class="uri">https://laderast.github.io</a> Chester: <span class="citation">@old_man_chester</span> <a href="https://chester.rbind.io" class="uri">https://chester.rbind.io</a></p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Data importing, wrangling, and tidying are often forgotten as being important parts of the data analysis pipeline. The <code>tidyverse</code> packages as designed to work together to import, tidy, and wrangle all in a consistent framework working with data frames.</p>
+</div>
+<div id="more-resources" class="section level2">
+<h2>More resources</h2>
+<ul>
+<li>Ted and <a href="http://jessicaminnier.com/">Jessica Minnier</a> created a free DataCamp course covering many of the topics covered here if you’d like to go back and practice on your own. - Chester and <a href="http://rudeboybert.rbind.io/">Albert Kim</a> wrote a <a href="https://moderndive.netlify.com">free introductory textbook</a> to help beginners get going with R.</li>
+<li>We’re biased but we also highly recommend Dave Robinson’s <a href="https://www.datacamp.com/courses/introduction-to-the-tidyverse">Introduction to the Tidyverse</a> course on DataCamp that Chester helped to author in his role at DataCamp.</li>
+<li>Alison Hill will also be launching a follow-up DataCamp course on data importing, data taming, and data tidying tentatively titled “Working with Data in the Tidyverse” later this summer. You can track its progress <a href="https://trello.com/b/JSLbBqWB/datacamp-course-roadmap">here</a>.</li>
+</ul>
+<div id="post-session-survey" class="section level3">
+<h3>Post-session survey</h3>
+<p>We appreciate and yearn for your constructive and descriptive feedback so that we can improve as educators. To further support this, please feel out this <a href="https://goo.gl/forms/8rflopb1QXYclmUq1">brief survey</a>.</p>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGlkeSBEYXRhOiBXaHkgYW5kIEhvdyIKYXV0aG9yOiAiVGVkIExhZGVyYXMgYW5kIENoZXN0ZXIgSXNtYXkiCm91dHB1dDogCiAgaHRtbF9kb2N1bWVudDoKICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKICAgIGNvZGVfZm9sZGluZzogaGlkZQotLS0KCiMjIFdoYXQgaXMgVGlkeSBEYXRhPwoKLSBlYWNoIHJvdyBjb3JyZXNwb25kcyB0byBhbiBvYnNlcnZhdGlvbgotIGVhY2ggdmFyaWFibGUgaXMgYSBjb2x1bW4KLSBlYWNoIHR5cGUgb2Ygb2JzZXJ2YXRpb24gaXMgaW4gYSBkaWZmZXJlbnQgdGFibGUKCiFbXShmaWdzL3RpZHktMS5wbmcpCgojIyBXaHkgVGlkeSBEYXRhPwoKVGlkeSBkYXRhIGVuYWJsZXMgdXMgdG8gZG8gbG90cyBvZiB0aGluZ3MhCgoxKSBHcmVhdCBnZ3Bsb3RzCjIpIFN1bW1hcml6ZS9zbGljZSB0aGUgZGF0YSBpbiBtdWx0aXBsZSB3YXlzCjMpIEVuYWJsZSBFeHBsb3JhdG9yeSBEYXRhIEFuYWx5c2lzCjQpIEVuc3VyZSBhc3N1bXB0aW9ucyBhcmUgbWV0IGZvciBtZXRob2RzCjUpIEVuYWJsZSBDb25maXJtYXRvcnkgRGF0YSBBbmFseXNpcwoKIyMgQmV3YXJlIG9mIGNvbHVtbnMgbWFzcXVlcmFkaW5nIGFzIHZhcmlhYmxlcyEKCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkocmVhZHIpCmZlcnRpbGl0eV9kYXRhIDwtIHJlYWRfY3N2KCJkYXRhL3RvdGFsX2ZlcnRpbGl0eS5jc3YiKQpmZXJ0aWxpdHlfZGF0YQpgYGAKClRoZXNlIGNvbHVtbnMgYXJlIGFjdHVhbGx5IGNhdGVnb3JpZXMhCgpBc2sgeW91cnNlbGY6IGRvIHRoZXNlIGNvbHVtbnMgZ28gdG9nZXRoZXIgYXMgYSBzaW5nbGUgb2JzZXJ2YXRpb24gZm9yIHlvdXIgYW5hbHlzaXM/CgpBbHNvIGFzayB5b3Vyc2VsZjogV2hhdCBpcyB0aGUgdW5pdCBvZiBvYnNlcnZhdGlvbj8KCgojIyBNYWtpbmcgZGF0YSB0aWR5OiBgZ2F0aGVyKClgCgpVc2UgYGdhdGhlcigpYCB3aGVuIHlvdSBuZWVkIHRvIG1ha2UgYSBidW5jaCBvZiBjb2x1bW5zIGludG8gb25lIGNvbHVtbi4gSW4gb3RoZXIgd29yZHMsIHdoZW4geW91IHdhbnQgdG8gY29udmVydCAid2lkZSBkYXRhIiB0byAibG9uZyBkYXRhLiIKCmBgYHtyfQojIGdhdGhlcigpIGhhcyB0aHJlZSBzdGFuZGFyZCBhcmd1bWVudHM6IGRhdGEsIGtleSwgYW5kIHZhbHVlCiMgZGF0YSBpcyB1c3VhbGx5IGxvYWRlZCB2aWEgdGhlICU+JQojIGtleSBpcyB3aGF0IHlvdSB3YW50IHlvdXIgbmV3IGNhdGVnb3JpY2FsIGNvbHVtbiB0byBiZSBuYW1lZAojIHZhbHVlIGlzIGZvciB0aGUgYWN0dWFsIHZhbHVlcyBpbiB0aGUgY29sdW1ucwoKIyBXZSBkb24ndCB3YW50IHRoZSBgVG90YWwgZmVydGlsaXR5IHJhdGVgIGNvbHVtbiB0byBiZSBpbmNsdWRlZCBhcyBwYXJ0IG9mIHRoZQojIGdhdGhlcigpIG9wZXJhdGlvbiwgc28gd2UgdXNlIHRoZSBgLWAgbm90YXRpb24gdG8gZXhjbHVkZSBpdC4KCmZlcnRpbGl0eV90aWR5IDwtIGZlcnRpbGl0eV9kYXRhICU+JSAKICBnYXRoZXIoa2V5ID0gIlllYXIiLCB2YWx1ZSA9ICJmZXJ0aWxpdHlSYXRlIiwgLWBUb3RhbCBmZXJ0aWxpdHkgcmF0ZWApICU+JSAKICAjIFJlLWFycmFuZ2UgYW5kIHJlbmFtZSBjb2x1bW5zCiAgc2VsZWN0KENvdW50cnkgPSBgVG90YWwgZmVydGlsaXR5IHJhdGVgLCBZZWFyLCBmZXJ0aWxpdHlSYXRlKSAlPiUgCiAgIyBSZW1vdmUgcm93cyB3aXRoIG1pc3NpbmcgdmFsdWVzIAogICMgKHRoZXJlIGFyZSBjb3VudHJpZXMgdGhhdCBoYXZlIGxpdHRsZSB0byBubyBpbmZvcm1hdGlvbikKICBuYS5vbWl0KCkKCmhlYWQoZmVydGlsaXR5X3RpZHkpCmBgYAoKIyMgWW91ciBUYXNrOiB1c2luZyB0aGlzIHRpZHkgZGF0YQoKIyMjIEV4ZXJjaXNlIDMuMQoKSG93IHdvdWxkIHdlIGZpbmQgdGhlIGF2ZXJhZ2UgZmVydGlsaXR5IHdpdGhpbiBhIHllYXI/IEhvdyBhYm91dCBmcm9tIDE4NjAgb24/CgpgYGB7cn0KIyBXcml0ZSBhbmQgY2hlY2sgeW91ciBhbnN3ZXIgaGVyZQpgYGAKCiMjIE1ha2luZyBvbmUgY29sdW1uIGludG8gbWFueTogYHNwcmVhZCgpYAoKU29tZXRpbWVzLCB5b3Ugd2lsbCBuZWVkIHRvIGdvIHRoZSBvdGhlciBkaXJlY3Rpb246IHRha2UgYSBsb25nIGZvcm1hdCBkYXRhc2V0IGFuZCBtYWtlIGl0IGludG8gYSBtb3JlIG1hdHJpeC1saWtlIGZvcm1hdC4gVGhpcyBpcyBuZWNlc3NhcnkgZm9yIHN1Y2ggZnVuY3Rpb25zIHN1Y2ggYXMgYGhlYXRtYXAoKWAuCgpMZXQncyBjaGFuZ2UgdGhpbmdzIGFyb3VuZCBhbmQgbWFrZSB0aGUgYENvdW50cnlgIGNvbHVtbiBpbnRvIHRoZSB2YXJpYWJsZXMgKGNvbHVtbnMpIGluIHRoZSBkYXRhc2V0LiAKCmBgYHtyfQpmZXJ0aWxpdHlfd2lkZSA8LSBmZXJ0aWxpdHlfdGlkeSAlPiUgCiAgIyBzcHJlYWQoKSB0YWtlcyBhIGtleSAoQ291bnRyeSkgYW5kIHZhbHVlIChmZXJ0aWxpdHlSYXRlKSBhcmd1bWVudAogICMgTm90ZSB0aGF0IHdlIGRvbid0IHF1b3RlIGhlcmUsIHdoZXJlYXMgd2UgZG8gaW4gZ2F0aGVyKCkKICBzcHJlYWQoa2V5ID0gQ291bnRyeSwgdmFsdWUgPSBmZXJ0aWxpdHlSYXRlKSAKCmZlcnRpbGl0eV93aWRlCmBgYAoKIyMgWW91ciBUYXNrIC0gV2hvIGlzIHRoZSBtb3N0IGRlbW9jcmF0aWM/CgpMb2FkIHRoZSBgZGVtX3Njb3JlLmNzdmAgZGF0YXNldCBpbiB0aGUgYGRhdGFgIGZvbGRlci4gVGlkeSBpdCB1cC4gV2hpY2ggY291bnRyaWVzIGhhZCB0aGUgaGlnaGVzdCBkZW1vY3JhY3kgc2NvcmUgaW4gMjAwNz8KCkhpbnQ6IHlvdSdsbCBoYXZlIHRvIHVzZSB5b3VyIGBkcGx5cmAgc2tpbGxzIGFzIHdlbGwuCgpgYGB7cn0KI2VudGVyIHlvdXIgYW5zd2VyIGhlcmUKCmBgYAoKIyMgV2hhdCdzIE5leHQ/CgpXZSd2ZSBzaG93ZWQgeW91IHRoZSBiYXJlIGJhc2ljcyBvZiBkYXRhIHdyYW5nbGluZyBpbiB0aGUgdGlkeXZlcnNlLiBUaGVyZSdzIGEgdG9uIG1vcmUhCgpXaGVyZSB0byBnbyBuZXh0PwoKLSA8aHR0cDovL3RpZHl2ZXJzZS5vcmc+CiAgICAtIGBsdWJyaWRhdGVgIGZvciBkZWFsaW5nIHdpdGggZGF0ZXMKICAgIC0gYHN0cmluZ3JgIGZvciBtYW5pcHVsYXRpbmcgc3RyaW5ncwogICAgLSBgZm9yY2F0c2AgZm9yIHdvcmtpbmcgd2l0aCBjYXRlZ29yaWNhbCBkYXRhCi0gVGlkeXZlcnNlIGNvbW11bml0eSBwYWNrYWdlcwogICAgLSBbYG5hbmlhcmBdKGh0dHA6Ly9uYW5pYXIubmp0aWVybmV5LmNvbS8pIGZvciB0aWR5IGhhbmRsaW5nIG9mIG1pc3NpbmcgZGF0YQogICAgLSBbYGluZmVyYF0oaHR0cHM6Ly9pbmZlci5uZXRsaWZ5LmNvbSkgZm9yIHRpZHkgc3RhdGlzdGljYWwgaW5mZXJlbmNlICAgIAotIE1vZGVybkRpdmUgKGJ5IENoZXN0ZXIgYW5kIEFsYmVydCBLaW0pOiBodHRwOi8vd3d3Lm1vZGVybmRpdmUuY29tCi0gUiBmb3IgRGF0YSBTY2llbmNlOiBodHRwOi8vcjRkcy5oYWQuY28ubnoKLSBbVmFyaWV0eSBvZiBjb3Vyc2VzIG9uIERhdGFDYW1wXShodHRwczovL3d3dy5kYXRhY2FtcC5jb20vY291cnNlcy90ZWNoOnIpIAoKLS0tCgojIENsb3NpbmcgcHJvamVjdAoKLSBUcnkgdG8gbG9hZCBpbiB5b3VyIG93biBkYXRhIGFuZCB1c2UgYHRpZHlyYCB0byBnZXQgaXQgaW50byB0aGUgcmlnaHQgZm9ybWF0IGlmIG5lZWRlZCB0byB1c2UgYGRwbHlyYCB0byBkbyBzb21lIGRhdGEgd3JhbmdsaW5nLiBJZiB5b3UgZG9uJ3QgaGF2ZSB5b3VyIG93biBkYXRhIGRvIHNvbWUgYW5hbHlzZXMgb24gdGhlIGBwZXJpb2RpY190YWJsZWAgZGF0YSB5b3UgbG9hZGVkIGluIGJlZm9yZSB1c2luZyBgZHBseXJgLiBXZSdsbCBiZSBhcm91bmQgdG8gYW5zd2VyIHF1ZXN0aW9ucy4gVGhhbmtzIG11Y2ghCgotLS0KCiMjIEtlZXAgaW4gVG91Y2ghCgpUZWQ6IEB0bGFkZXJhcyBodHRwczovL2xhZGVyYXN0LmdpdGh1Yi5pbwpDaGVzdGVyOiBAb2xkX21hbl9jaGVzdGVyIGh0dHBzOi8vY2hlc3Rlci5yYmluZC5pbwoKIyMgQ29uY2x1c2lvbgoKRGF0YSBpbXBvcnRpbmcsIHdyYW5nbGluZywgYW5kIHRpZHlpbmcgYXJlIG9mdGVuIGZvcmdvdHRlbiBhcyBiZWluZyBpbXBvcnRhbnQgcGFydHMgb2YgdGhlIGRhdGEgYW5hbHlzaXMgcGlwZWxpbmUuIFRoZSBgdGlkeXZlcnNlYCBwYWNrYWdlcyBhcyBkZXNpZ25lZCB0byB3b3JrIHRvZ2V0aGVyIHRvIGltcG9ydCwgdGlkeSwgYW5kIHdyYW5nbGUgYWxsIGluIGEgY29uc2lzdGVudCBmcmFtZXdvcmsgd29ya2luZyB3aXRoIGRhdGEgZnJhbWVzLgoKIyMgTW9yZSByZXNvdXJjZXMKCi0gVGVkIGFuZCBbSmVzc2ljYSBNaW5uaWVyXShodHRwOi8vamVzc2ljYW1pbm5pZXIuY29tLykgY3JlYXRlZCBhIGZyZWUgRGF0YUNhbXAgY291cnNlIGNvdmVyaW5nIG1hbnkgb2YgdGhlIHRvcGljcyBjb3ZlcmVkIGhlcmUgaWYgeW91J2QgbGlrZSB0byBnbyBiYWNrIGFuZCBwcmFjdGljZSBvbiB5b3VyIG93bi4gLSBDaGVzdGVyIGFuZCBbQWxiZXJ0IEtpbV0oaHR0cDovL3J1ZGVib3liZXJ0LnJiaW5kLmlvLykgd3JvdGUgYSBbZnJlZSBpbnRyb2R1Y3RvcnkgdGV4dGJvb2tdKGh0dHBzOi8vbW9kZXJuZGl2ZS5uZXRsaWZ5LmNvbSkgdG8gaGVscCBiZWdpbm5lcnMgZ2V0IGdvaW5nIHdpdGggUi4gCi0gV2UncmUgYmlhc2VkIGJ1dCB3ZSBhbHNvIGhpZ2hseSByZWNvbW1lbmQgRGF2ZSBSb2JpbnNvbidzIFtJbnRyb2R1Y3Rpb24gdG8gdGhlIFRpZHl2ZXJzZV0oaHR0cHM6Ly93d3cuZGF0YWNhbXAuY29tL2NvdXJzZXMvaW50cm9kdWN0aW9uLXRvLXRoZS10aWR5dmVyc2UpIGNvdXJzZSBvbiBEYXRhQ2FtcCB0aGF0IENoZXN0ZXIgaGVscGVkIHRvIGF1dGhvciBpbiBoaXMgcm9sZSBhdCBEYXRhQ2FtcC4gCi0gQWxpc29uIEhpbGwgd2lsbCBhbHNvIGJlIGxhdW5jaGluZyBhIGZvbGxvdy11cCBEYXRhQ2FtcCBjb3Vyc2Ugb24gZGF0YSBpbXBvcnRpbmcsIGRhdGEgdGFtaW5nLCBhbmQgZGF0YSB0aWR5aW5nIHRlbnRhdGl2ZWx5IHRpdGxlZCAiV29ya2luZyB3aXRoIERhdGEgaW4gdGhlIFRpZHl2ZXJzZSIgbGF0ZXIgdGhpcyBzdW1tZXIuIFlvdSBjYW4gdHJhY2sgaXRzIHByb2dyZXNzIFtoZXJlXShodHRwczovL3RyZWxsby5jb20vYi9KU0xiQnFXQi9kYXRhY2FtcC1jb3Vyc2Utcm9hZG1hcCkuCgojIyMgUG9zdC1zZXNzaW9uIHN1cnZleQoKV2UgYXBwcmVjaWF0ZSBhbmQgeWVhcm4gZm9yIHlvdXIgY29uc3RydWN0aXZlIGFuZCBkZXNjcmlwdGl2ZSBmZWVkYmFjayBzbyB0aGF0IHdlIGNhbiBpbXByb3ZlIGFzIGVkdWNhdG9ycy4gVG8gZnVydGhlciBzdXBwb3J0IHRoaXMsIHBsZWFzZSBmZWVsIG91dCB0aGlzIFticmllZiBzdXJ2ZXldKGh0dHBzOi8vZ29vLmdsL2Zvcm1zLzhyZmxvcGIxUVhZY2xtVXExKS4K</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -2,23 +2,33 @@ A gRadual intRoduction to data wRangling
 ================
 Chester Ismay and Ted Laderas
 
-Welcome! This is a workshop for the Cascadia R conference that is meant to be a gentle introduction to data wrangling using the `tidyverse` packages. You'll find that there's lots of functions in the `tidyverse` that help solve your common headaches with working with data and can even make data wrangling more fun!
+Welcome! This is a workshop for the Cascadia R conference that is meant to be a gentle introduction to data wrangling using the `tidyverse` packages. You'll find that there are lots of functions in the `tidyverse` that help solve your common headaches with working with data and can even make data wrangling somewhat fun!
 
 Prerequisites
 -------------
 
-To participate in this workshop, you'll need to do the following:
+Please make sure to have this completed prior to the workshop beginning. To participate in this workshop, you'll need to do the following on your own laptops:
 
--   Have the latest R/Rstudio Installed ([Directions are here](https://ismayc.github.io/rbasics-book/3-rstudiobasics.html))
--   Be familiar with the [basics of the RStudio Interface](https://ismayc.github.io/rbasics-book/3-rstudiobasics.html)
--   Have the following packages installed:
-    -   `tidyverse` and `fivethirtyeight`
+1.  Have the latest version of R AND RStudio installed ([Directions are here](http://moderndive.netlify.com/2-getting-started.html#what-are-r-and-rstudio))
+2.  Be familiar with the [basics of the RStudio Interface](https://ismayc.github.io/rbasics-book/3-rstudiobasics.html#rstudio-layout)
+3.  Have the following R packages installed: `tidyverse`, `gapminder`, and `fivethirtyeight`
 
-<!-- -->
+    This can be accomplished by copying the following code into the *Console* in RStudio and pressing Enter. Note that you'll see quite a few lines of code run while the packages are installing. Don't be alarmed. After all four of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.
 
-    install.packages("tidyverse", "fivethirtyeight", "gapminder")
+        install.packages(c("tidyverse", "gapminder", "fivethirtyeight"))
 
-Remember, in this workshop we will adhere the [code of conduct for this conference](https://cascadiarconf.com/coc/). Be respectful and let's learn together.
+    -   The [`tidyverse`](http://tidyverse.tidyverse.org/) package installs a variety of different packages that will be useful in your analysis including the [`dplyr`](https://dplyr.tidyverse.org/) package that will be the focus of this workshop.
+    -   The [`gapminder`](https://github.com/jennybc/gapminder/blob/master/README.md) package contains a data set made famous by Hans Rosling exploring data on the world's countries.
+    -   The [`fivethirtyeight`](http://fivethirtyeight-r.netlify.com/) package contains many datasets used by data journalists at FiveThirtyEight.com.
+
+IMPORTANT FINAL STEP
+--------------------
+
+-   Download the conference materials as a [ZIP file](https://github.com/tidyverse-intro/gradual_data_wrangling/archive/master.zip) and extract the files there as a folder on your computer. Note the importance of actually extracting all the files to a folder. This will be particularly important when we talk about importing files. Double click on the **gradual\_data\_wrangling.Rproj** file in that folder to open up an RStudio project containing the files needed for the workshop.
+
+You'll be following along in the **Part1-dplyr_intro.Rmd**, **Part2-loading_data.Rmd**, and **Part3-why_tidy_data.Rmd** files, running the R code in the "chunks" there, and writing your own code to practice.
+
+Remember, in this workshop we will adhere the [code of conduct for this conference](https://cascadiarconf.com/coc/). Be respectful of your fellow students and let's learn together.
 
 Outline of this Workshop
 ------------------------
@@ -30,7 +40,6 @@ Outline of this Workshop
     -   Design a new variable using `mutate()`
     -   Sort the data based on one or more variables with `arrange()`
     -   Using the pipe `%>%` to chain it all together
-2.  Importing data using `readr`, `readxl`, and `haven` packages
+2.  Importing data using `readxl`, `readr`, and `haven` packages
 3.  What is tidy data?
 4.  Using the `tidyr` package to reshape/tidy/make data long
-5.  Optional: Factors with `forcats` , dates with `lubridate`, and strings with `stringr`

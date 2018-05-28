@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Cascadia R 2018 - Data Wrangling workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Part1-dplyr_intro.html">Part 1</a>
+</li>
+<li>
+  <a href="Part2-loading_data.html">Part 2</a>
+</li>
+<li>
+  <a href="Part3-why_tidy_data.html">Part 3</a>
+</li>
+<li>
+  <a href="Part4_factors_dates_strings.Rmd">(Extra) Part 4</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="a-gradual-introduction-to-data-wrangling" class="section level1">
+<h1>A gRadual intRoduction to data wRangling</h1>
+<p>Chester Ismay and Ted Laderas</p>
+<p>Welcome! This is a workshop for the Cascadia R conference that is meant to be a gentle introduction to data wrangling using the <code>tidyverse</code> packages. You’ll find that there are lots of functions in the <code>tidyverse</code> that help solve your common headaches with working with data and can even make data wrangling somewhat fun!</p>
+<div id="prerequisites" class="section level2">
+<h2>Prerequisites</h2>
+<p>Please make sure to have this completed prior to the workshop beginning. To participate in this workshop, you’ll need to do the following on your own laptops:</p>
+<ol style="list-style-type: decimal">
+<li>Have the latest version of R AND RStudio installed (<a href="http://moderndive.netlify.com/2-getting-started.html#what-are-r-and-rstudio">Directions are here</a>)</li>
+<li>Be familiar with the <a href="https://ismayc.github.io/rbasics-book/3-rstudiobasics.html#rstudio-layout">basics of the RStudio Interface</a></li>
+<li><p>Have the following R packages installed: <code>tidyverse</code>, <code>gapminder</code>, and <code>fivethirtyeight</code></p>
+<p>This can be accomplished by copying the following code into the <em>Console</em> in RStudio and pressing Enter. Note that you’ll see quite a few lines of code run while the packages are installing. Don’t be alarmed. After all four of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.</p>
+<pre><code>install.packages(c(&quot;tidyverse&quot;, &quot;gapminder&quot;, &quot;fivethirtyeight&quot;))</code></pre>
+<ul>
+<li>The <a href="http://tidyverse.tidyverse.org/"><code>tidyverse</code></a> package installs a variety of different packages that will be useful in your analysis including the <a href="https://dplyr.tidyverse.org/"><code>dplyr</code></a> package that will be the focus of this workshop.</li>
+<li>The <a href="https://github.com/jennybc/gapminder/blob/master/README.md"><code>gapminder</code></a> package contains a data set made famous by Hans Rosling exploring data on the world’s countries.</li>
+<li>The <a href="http://fivethirtyeight-r.netlify.com/"><code>fivethirtyeight</code></a> package contains many datasets used by data journalists at FiveThirtyEight.com.</li>
+</ul></li>
+</ol>
+</div>
+<div id="important-final-step" class="section level2">
+<h2>IMPORTANT FINAL STEP</h2>
+<ul>
+<li>Download the conference materials as a <a href="https://github.com/tidyverse-intro/gradual_data_wrangling/archive/master.zip">ZIP file</a> and extract the files there as a folder on your computer. Note the importance of actually extracting all the files to a folder. This will be particularly important when we talk about importing files. Double click on the <strong>gradual_data_wrangling.Rproj</strong> file in that folder to open up an RStudio project containing the files needed for the workshop.</li>
+</ul>
+<p>You’ll be following along in the <strong>Part1-dplyr_intro.Rmd</strong>, <strong>Part2-loading_data.Rmd</strong>, and <strong>Part3-why_tidy_data.Rmd</strong> files, running the R code in the “chunks” there, and writing your own code to practice.</p>
+<p>Remember, in this workshop we will adhere the <a href="https://cascadiarconf.com/coc/">code of conduct for this conference</a>. Be respectful of your fellow students and let’s learn together.</p>
+</div>
+<div id="outline-of-this-workshop" class="section level2">
+<h2>Outline of this Workshop</h2>
+<ol style="list-style-type: decimal">
+<li>Use <code>dplyr</code> for data wrangling / summarizing
+<ul>
+<li>Subsetting rows with <code>filter()</code></li>
+<li>Creating a numerical summary with <code>summarize()</code></li>
+<li>Building summaries across groups of one or more variable with <code>group_by() %&gt;% summarize()</code></li>
+<li>Design a new variable using <code>mutate()</code></li>
+<li>Sort the data based on one or more variables with <code>arrange()</code></li>
+<li>Using the pipe <code>%&gt;%</code> to chain it all together</li>
+</ul></li>
+<li>Importing data using <code>readxl</code>, <code>readr</code>, and <code>haven</code> packages</li>
+<li>What is tidy data?</li>
+<li>Using the <code>tidyr</code> package to reshape/tidy/make data long</li>
+</ol>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
