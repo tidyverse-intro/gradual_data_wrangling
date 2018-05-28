@@ -11,5 +11,3 @@ navbar:
       href: Part2-loading_data.html     
     - text: "Part 3"
       href: Part3-why_tidy_data.html
-    - text: "(Extra) Part 4"
-      href: Part4_factors_dates_strings.Rmd
