@@ -62,7 +62,7 @@ Be sure to check the help for all of these (via `?read_delim`) to see all of the
 
 ## `haven` package
 
-Reading in "external" data from ~inferior~, I mean, other software packages like SPSS (`.sav`), Stata (`.dta`), SAS, etc. Check the [haven package website](http://haven.tidyverse.org/) for assistance.
+Reading in "external" data from ~~inferior~~, I mean, other software packages like SPSS (`.sav`), Stata (`.dta`), SAS, etc. Check the [haven package website](http://haven.tidyverse.org/) for assistance.
 
 
 
@@ -80,8 +80,8 @@ Load the periodic table data stored in the `data` folder.
 
 Read in data from files into `data.frame`s from
 
-- 1. Excel files using the `read_excel()` function in the `readxl` package,
-- 1. CSV files using the `read_csv()` and `read_delim()` functions in the `readr` package
-- 1. data from proprietary statistical software using the `read_spss()`, `read_stata()`, and `read_sas()` functions in the `haven` package
+- Excel files using the `read_excel()` function in the `readxl` package,
+- CSV files using the `read_csv()` and `read_delim()` functions in the `readr` package
+- data from proprietary statistical software using the `read_spss()`, `read_stata()`, and `read_sas()` functions in the `haven` package
 
 

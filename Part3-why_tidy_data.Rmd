@@ -95,6 +95,8 @@ fertility_wide
 
 ## Your Task - Who is the most democratic?
 
+### Exercise 3.2
+
 Load the `dem_score.csv` dataset in the `data` folder. Tidy it up. Which countries had the highest democracy score in 2007?
 
 Hint: you'll have to use your `dplyr` skills as well.
@@ -108,9 +110,10 @@ Hint: you'll have to use your `dplyr` skills as well.
 
 How to convert
 
-- 1. wide/messy data into long/tidy data using the `gather()` function in the `tidyr` package
-- 1. long data into wide data using the `spread()` function in the `tidyr` package
+- wide/messy data into long/tidy data using the `gather()` function in the `tidyr` package
+- long data into wide data using the `spread()` function in the `tidyr` package
 
+---
 
 ## What's Next?
 
@@ -141,8 +144,8 @@ Where to go next?
 
 ## Keep in Touch!
 
-Ted: @tladeras https://laderast.github.io
-Chester: @old_man_chester https://chester.rbind.io
+- Ted: @tladeras https://laderast.github.io
+- Chester: @old_man_chester https://chester.rbind.io
 
 ## Conclusion
 

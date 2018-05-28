@@ -20,7 +20,7 @@ It is recommended you also explore the RStudio Cheatsheet on [Data Transformatio
 
 Here is a look at the `gapminder` data frame in the `gapminder` package.
 
-```{r}
+```{r message=FALSE}
 library(tidyverse)
 library(gapminder)
 gapminder
@@ -46,7 +46,7 @@ gapminder %>%
 `r knitr::include_graphics("figs/pipe.png")` &emsp; &emsp;`r knitr::include_graphics("figs/MagrittePipe.jpg")`
 
 - A way to chain together commands
-- It is *essentially* the `dplyr` equivalent to the `+` in `ggplot2`
+- This helps with making your analyses readable and exploratory at the same time
 
 
 # The Five Main Verbs (5MV) of data wrangling
@@ -246,7 +246,7 @@ Determine the top five movies in terms of domestic return on investment for 2013
 
 Different ways in the `dplyr` package to
 
-- 1. choose subsets of data using the `filter()` verb
-- 1. aggregate data to create summaries using the `summarize()` and `group_by` verbs
-- 1. make new variables using the `mutate()` verb
-- 1. sort your data frames using the `arrange()` verb
+- choose subsets of data using the `filter()` verb
+- aggregate data to create summaries using the `summarize()` and `group_by` verbs
+- make new variables using the `mutate()` verb
+- sort your data frames using the `arrange()` verb
