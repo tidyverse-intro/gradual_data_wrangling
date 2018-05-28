@@ -7,6 +7,8 @@ output:
     code_folding: hide
 ---
 
+In this section, we'll step back into theory for a bit to talk about where the "tidy" in `tidyverse` comes from and why it is an important feature of data. We'll also see how to transform data from "messy"/wide to "tidy"/long and vice versa.
+
 ## What is Tidy Data?
 
 - each row corresponds to an observation
@@ -102,12 +104,22 @@ Hint: you'll have to use your `dplyr` skills as well.
 
 ```
 
+## What you learned in this section
+
+How to convert
+
+- 1. wide/messy data into long/tidy data using the `gather()` function in the `tidyr` package
+- 1. long data into wide data using the `spread()` function in the `tidyr` package
+
+
 ## What's Next?
 
 We've showed you the bare basics of data wrangling in the tidyverse. There's a ton more!
 
 Where to go next?
 
+- More cool functions in [`tidyr`](http://tidyr.tidyverse.org/)
+    - The [Data Import](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf) RStudio cheatsheet also has a section on `tidyr`
 - <http://tidyverse.org>
     - `lubridate` for dealing with dates
     - `stringr` for manipulating strings
@@ -123,7 +135,7 @@ Where to go next?
 
 # Closing project
 
-- Try to load in your own data and use `tidyr` to get it into the right format if needed to use `dplyr` to do some data wrangling. If you don't have your own data do some analyses on the `periodic_table` data you loaded in before using `dplyr`. We'll be around to answer questions. Thanks much!
+- Try to load in your own data and use `tidyr` to get it into the right format if needed to use `dplyr` to do some data wrangling. If you don't have your own data, do some analyses on the `periodic_table` data you loaded in before using `dplyr`. We'll be around to answer questions. Thanks much!
 
 ---
 

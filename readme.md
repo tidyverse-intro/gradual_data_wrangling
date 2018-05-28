@@ -17,7 +17,7 @@ Please make sure to have this completed prior to the workshop beginning. To part
 
         install.packages(c("tidyverse", "gapminder", "fivethirtyeight"))
 
-    -   The [`tidyverse`](http://tidyverse.tidyverse.org/) package installs a variety of different packages that will be useful in your analysis including the [`dplyr`](https://dplyr.tidyverse.org/) package that will be the focus of this workshop.
+    -   The [`tidyverse`](http://tidyverse.tidyverse.org/) package installs a variety of different packages that will be useful in your analysis that will be the focus of this workshop.
     -   The [`gapminder`](https://github.com/jennybc/gapminder/blob/master/README.md) package contains a data set made famous by Hans Rosling exploring data on the world's countries.
     -   The [`fivethirtyeight`](http://fivethirtyeight-r.netlify.com/) package contains many datasets used by data journalists at FiveThirtyEight.com.
 

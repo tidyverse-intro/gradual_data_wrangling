@@ -7,11 +7,12 @@ output:
     code_folding: hide
 ---
 
-In this section, we'll load in external data using several built in packages to the `tidyverse`. In particular, we'll cover:
+In this section, we'll load in external data using several built-in packages to the `tidyverse`. In particular, we'll cover:
 
 1. Loading excel spreadsheets with `readxl`
-2. Loading datafiles from SAS/SPSS with `haven`
-3. Loading in flat text file data, comma separated, 
+2. Loading in flat text file data, comma separated.
+3. Loading datafiles from SAS/SPSS with `haven`
+
 
 ## Some things to keep in mind
 
@@ -75,6 +76,12 @@ Load the periodic table data stored in the `data` folder.
 # Write and check your answer here.
 ```
 
+## What you learned in this section
 
+Read in data from files into `data.frame`s from
+
+- 1. Excel files using the `read_excel()` function in the `readxl` package,
+- 1. CSV files using the `read_csv()` and `read_delim()` functions in the `readr` package
+- 1. data from proprietary statistical software using the `read_spss()`, `read_stata()`, and `read_sas()` functions in the `haven` package
 
 
