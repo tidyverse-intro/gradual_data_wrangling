@@ -5,6 +5,7 @@ output:
   html_document:
     code_download: true
     code_folding: hide
+    df_print: paged
 ---
 
 In this section, we'll step back into theory for a bit to talk about where the "tidy" in `tidyverse` comes from and why it is an important feature of data. We'll also see how to transform data from "messy"/wide to "tidy"/long and vice versa.
