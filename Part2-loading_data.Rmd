@@ -35,7 +35,6 @@ library(readxl)
 movies_from_excel <- read_excel("data/movies.xlsx", sheet = 1)
 ```
 
-
 ## `readr` package
 
 Flat files, such as comma-separated-value (.csv), and other types of simple rectangular data.
@@ -47,7 +46,7 @@ library(readr)
 movies_from_csv <- read_csv("data/movies.csv")
 ```
 
-- `read_delim`: Your general purpose flat file reader specifying 
+- `read_delim`: Your general purpose flat file reader. For example, if you have a *tab delimited file*, you can specify `delim` = "\t" ("\t" is how you specify tabs). 
 
 ```{r}
 library(readr)
@@ -56,21 +55,19 @@ movies <- read_delim("data/movies.csv", delim = ",")
 
 Be sure to check the help for all of these (via `?read_delim`) to see all of the other options available. Some that come up frequently in our own experience are 
 
-- `na`
-- `skip`
-- `col_types`
+- `na` - If your missing values are coded differently than `NA`, you can set the value here.
+- `skip` - if there's explanatory text before the header, use this argument to skip these lines. For example, if your header starts at line 4, use `skip`=3
+- `col_types` - this is where you have more control on the data types for each column.
 
 ## `haven` package
 
 Reading in "external" data from ~~inferior~~, I mean, other software packages like SPSS (`.sav`), Stata (`.dta`), SAS, etc. Check the [haven package website](http://haven.tidyverse.org/) for assistance.
 
-
-
 ## Your turn
 
 ### Exercise 2.1
 
-Load the periodic table data stored in the `data` folder.
+Load the periodic table data stored in the `data` folder. (Hint: you'll have to use the `haven` package - look for a `read_` function that can read the `.sav` file format.)
 
 ```{r}
 # Write and check your answer here.
