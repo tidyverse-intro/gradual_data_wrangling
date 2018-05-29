@@ -272,15 +272,15 @@ fertility_data &lt;- read_csv(&quot;data/total_fertility.csv&quot;)</code></pre>
 ##    `Total fertility rate` `1800` `1801` `1802` `1803` `1804` `1805` `1806`
 ##    &lt;chr&gt;                   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 ##  1 Abkhazia                NA     NA     NA     NA     NA     NA     NA   
-##  2 Afghanistan              7      7      7      7      7      7      7   
+##  2 Afghanistan              7.00   7.00   7.00   7.00   7.00   7.00   7.00
 ##  3 Akrotiri and Dhekelia   NA     NA     NA     NA     NA     NA     NA   
-##  4 Albania                  4.6    4.6    4.6    4.6    4.6    4.6    4.6 
+##  4 Albania                  4.60   4.60   4.60   4.60   4.60   4.60   4.60
 ##  5 Algeria                  6.99   6.99   6.99   6.99   6.99   6.99   6.99
 ##  6 American Samoa          NA     NA     NA     NA     NA     NA     NA   
 ##  7 Andorra                 NA     NA     NA     NA     NA     NA     NA   
 ##  8 Angola                   6.93   6.93   6.93   6.93   6.93   6.93   6.93
 ##  9 Anguilla                NA     NA     NA     NA     NA     NA     NA   
-## 10 Antigua and Barbuda      5      5      4.99   4.99   4.99   4.98   4.98
+## 10 Antigua and Barbuda      5.00   5.00   4.99   4.99   4.99   4.98   4.98
 ## # ... with 250 more rows, and 209 more variables: `1807` &lt;dbl&gt;,
 ## #   `1808` &lt;dbl&gt;, `1809` &lt;dbl&gt;, `1810` &lt;dbl&gt;, `1811` &lt;dbl&gt;, `1812` &lt;dbl&gt;,
 ## #   `1813` &lt;dbl&gt;, `1814` &lt;dbl&gt;, `1815` &lt;dbl&gt;, `1816` &lt;dbl&gt;, `1817` &lt;dbl&gt;,
@@ -329,12 +329,12 @@ head(fertility_tidy)</code></pre>
 <pre><code>## # A tibble: 6 x 3
 ##   Country             Year  fertilityRate
 ##   &lt;chr&gt;               &lt;chr&gt;         &lt;dbl&gt;
-## 1 Afghanistan         1800           7   
-## 2 Albania             1800           4.6 
+## 1 Afghanistan         1800           7.00
+## 2 Albania             1800           4.60
 ## 3 Algeria             1800           6.99
 ## 4 Angola              1800           6.93
-## 5 Antigua and Barbuda 1800           5   
-## 6 Argentina           1800           6.8</code></pre>
+## 5 Antigua and Barbuda 1800           5.00
+## 6 Argentina           1800           6.80</code></pre>
 </div>
 <div id="your-task-using-this-tidy-data" class="section level2">
 <h2>Your Task: using this tidy data</h2>
@@ -356,17 +356,17 @@ head(fertility_tidy)</code></pre>
 fertility_wide</code></pre>
 <pre><code>## # A tibble: 216 x 202
 ##    Year  Afghanistan Albania Algeria Angola `Antigua and Barbud… Argentina
-##    &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;                &lt;dbl&gt;     &lt;dbl&gt;
-##  1 1800            7     4.6    6.99   6.93                 5          6.8
-##  2 1801            7     4.6    6.99   6.93                 5          6.8
-##  3 1802            7     4.6    6.99   6.93                 4.99       6.8
-##  4 1803            7     4.6    6.99   6.93                 4.99       6.8
-##  5 1804            7     4.6    6.99   6.93                 4.99       6.8
-##  6 1805            7     4.6    6.99   6.93                 4.98       6.8
-##  7 1806            7     4.6    6.99   6.93                 4.98       6.8
-##  8 1807            7     4.6    6.99   6.94                 4.97       6.8
-##  9 1808            7     4.6    6.99   6.94                 4.97       6.8
-## 10 1809            7     4.6    6.99   6.94                 4.97       6.8
+##  * &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+##  1 1800           7.    4.60    6.99   6.93                 5.00      6.80
+##  2 1801           7.    4.60    6.99   6.93                 5.00      6.80
+##  3 1802           7.    4.60    6.99   6.93                 4.99      6.80
+##  4 1803           7.    4.60    6.99   6.93                 4.99      6.80
+##  5 1804           7.    4.60    6.99   6.93                 4.99      6.80
+##  6 1805           7.    4.60    6.99   6.93                 4.98      6.80
+##  7 1806           7.    4.60    6.99   6.93                 4.98      6.80
+##  8 1807           7.    4.60    6.99   6.94                 4.97      6.80
+##  9 1808           7.    4.60    6.99   6.94                 4.97      6.80
+## 10 1809           7.    4.60    6.99   6.94                 4.97      6.80
 ## # ... with 206 more rows, and 195 more variables: Armenia &lt;dbl&gt;,
 ## #   Aruba &lt;dbl&gt;, Australia &lt;dbl&gt;, Austria &lt;dbl&gt;, Azerbaijan &lt;dbl&gt;,
 ## #   Bahamas &lt;dbl&gt;, Bahrain &lt;dbl&gt;, Bangladesh &lt;dbl&gt;, Barbados &lt;dbl&gt;,

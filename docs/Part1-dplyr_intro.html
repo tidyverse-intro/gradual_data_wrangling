@@ -269,7 +269,6 @@ mean(asia$lifeExp)</code></pre>
 gapminder %&gt;% 
   filter(continent == &quot;Asia&quot;) %&gt;%
   summarize(mean_exp = mean(lifeExp))</code></pre>
-<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.4</code></pre>
 <pre><code>## # A tibble: 1 x 1
 ##   mean_exp
 ##      &lt;dbl&gt;
@@ -343,7 +342,7 @@ gap_2007</code></pre>
 ##  6 Albania     Europe     1972    67.7  2263554     3313.
 ##  7 Albania     Europe     1977    68.9  2509048     3533.
 ##  8 Albania     Europe     1982    70.4  2780097     3631.
-##  9 Albania     Europe     1987    72    3075321     3739.
+##  9 Albania     Europe     1987    72.0  3075321     3739.
 ## 10 Albania     Europe     1992    71.6  3326498     2497.
 ## # ... with 462 more rows</code></pre>
 <ul>
@@ -478,18 +477,18 @@ gap_w_gdp</code></pre>
 <pre class="r"><code>gap_weird &lt;- gapminder %&gt;% mutate(pop = pop + 1000)
 gap_weird</code></pre>
 <pre><code>## # A tibble: 1,704 x 6
-##    country     continent  year lifeExp      pop gdpPercap
-##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-##  1 Afghanistan Asia       1952    28.8  8426333      779.
-##  2 Afghanistan Asia       1957    30.3  9241934      821.
-##  3 Afghanistan Asia       1962    32.0 10268083      853.
-##  4 Afghanistan Asia       1967    34.0 11538966      836.
-##  5 Afghanistan Asia       1972    36.1 13080460      740.
-##  6 Afghanistan Asia       1977    38.4 14881372      786.
-##  7 Afghanistan Asia       1982    39.9 12882816      978.
-##  8 Afghanistan Asia       1987    40.8 13868957      852.
-##  9 Afghanistan Asia       1992    41.7 16318921      649.
-## 10 Afghanistan Asia       1997    41.8 22228415      635.
+##    country     continent  year lifeExp       pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8426333.      779.
+##  2 Afghanistan Asia       1957    30.3  9241934.      821.
+##  3 Afghanistan Asia       1962    32.0 10268083.      853.
+##  4 Afghanistan Asia       1967    34.0 11538966.      836.
+##  5 Afghanistan Asia       1972    36.1 13080460.      740.
+##  6 Afghanistan Asia       1977    38.4 14881372.      786.
+##  7 Afghanistan Asia       1982    39.9 12882816.      978.
+##  8 Afghanistan Asia       1987    40.8 13868957.      852.
+##  9 Afghanistan Asia       1992    41.7 16318921.      649.
+## 10 Afghanistan Asia       1997    41.8 22228415.      635.
 ## # ... with 1,694 more rows</code></pre>
 </div>
 <div id="arrange" class="section level2">
@@ -511,7 +510,7 @@ gap_weird</code></pre>
 ##  7 Austria     Europe     1952    66.8  6927772     6137.
 ##  8 Bahrain     Asia       1952    50.9   120447     9867.
 ##  9 Bangladesh  Asia       1952    37.5 46886859      684.
-## 10 Belgium     Europe     1952    68    8730405     8343.
+## 10 Belgium     Europe     1952    68.0  8730405     8343.
 ## # ... with 1,694 more rows</code></pre>
 <ul>
 <li>Can also put into descending order</li>
@@ -524,7 +523,7 @@ gap_weird</code></pre>
 ##    &lt;fct&gt;            &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
 ##  1 Japan            Asia       2007    82.6 127467972    31656.
 ##  2 Hong Kong, China Asia       2007    82.2   6980412    39725.
-##  3 Japan            Asia       2002    82   127065841    28605.
+##  3 Japan            Asia       2002    82.0 127065841    28605.
 ##  4 Iceland          Europe     2007    81.8    301931    36181.
 ##  5 Switzerland      Europe     2007    81.7   7554661    37506.
 ##  6 Hong Kong, China Asia       2002    81.5   6762476    30209.
