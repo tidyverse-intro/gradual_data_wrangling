@@ -208,7 +208,7 @@ $(document).ready(function () {
 <div id="a-gradual-introduction-to-data-wrangling" class="section level1">
 <h1>A gRadual intRoduction to data wRangling</h1>
 <p>Chester Ismay and Ted Laderas</p>
-<p>Welcome! This is a workshop for the Cascadia R conference that is meant to be a gentle introduction to data wrangling using the <code>tidyverse</code> packages. You’ll find that there are lots of functions in the <code>tidyverse</code> that help solve your common headaches with working with data and can even make data wrangling somewhat fun!</p>
+<p>Welcome! This is a workshop for the Cascadia R Conference that is meant to be a gentle introduction to data wrangling using the <code>tidyverse</code> R packages. You’ll find there are lots of functions in the <code>tidyverse</code> designed to help solve your common headaches when working with data and can even make data wrangling somewhat fun!</p>
 <div id="prerequisites" class="section level2">
 <h2>Prerequisites</h2>
 <p>Please make sure to have this completed prior to the workshop beginning. To participate in this workshop, you’ll need to do the following on your own laptops:</p>
@@ -216,7 +216,8 @@ $(document).ready(function () {
 <li>Have the latest version of R AND RStudio installed (<a href="http://moderndive.netlify.com/2-getting-started.html#what-are-r-and-rstudio">Directions are here</a>)</li>
 <li>Be familiar with the <a href="https://ismayc.github.io/rbasics-book/3-rstudiobasics.html#rstudio-layout">basics of the RStudio Interface</a></li>
 <li><p>Have the following R packages installed: <code>tidyverse</code>, <code>gapminder</code>, and <code>fivethirtyeight</code></p>
-<p>This can be accomplished by copying the following code into the <em>Console</em> in RStudio and pressing Enter. Note that you’ll see quite a few lines of code run while the packages are installing. Don’t be alarmed. After all four of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.</p>
+<p>This can be accomplished by copying the following code into the <em>Console</em> in RStudio and pressing Enter. Note that you’ll see quite a few lines of code run while the packages are installing. Don’t be alarmed. After the packages (and the packages they depend on) are done installing, you should see a <code>&gt;</code> waiting for you to enter something new waiting for you in the Console tab of RStudio.</p>
+<p>After all four of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.</p>
 <pre><code>install.packages(c(&quot;tidyverse&quot;, &quot;gapminder&quot;, &quot;fivethirtyeight&quot;))</code></pre>
 <ul>
 <li>The <a href="http://tidyverse.tidyverse.org/"><code>tidyverse</code></a> package installs a variety of different packages that will be useful in your analysis that will be the focus of this workshop.</li>
@@ -225,10 +226,11 @@ $(document).ready(function () {
 </ul></li>
 </ol>
 </div>
-<div id="important-final-step" class="section level2">
-<h2>IMPORTANT FINAL STEP</h2>
+<div id="important-final-steps" class="section level2">
+<h2>IMPORTANT FINAL STEPS</h2>
 <ul>
-<li>Download the conference materials as a <a href="https://github.com/tidyverse-intro/gradual_data_wrangling/archive/master.zip">ZIP file</a> and extract the files there as a folder on your computer. Note the importance of actually extracting all the files to a folder. This will be particularly important when we talk about importing files. Double click on the <strong>gradual_data_wrangling.Rproj</strong> file in that folder to open up an RStudio project containing the files needed for the workshop.</li>
+<li><p>Download the conference materials as a <a href="https://github.com/tidyverse-intro/gradual_data_wrangling/archive/master.zip">ZIP file</a> and extract the files there as a folder on your computer. Note the importance of actually extracting all the files to a folder. This will be particularly important when we talk about importing files.</p></li>
+<li><p>Double click on the <strong>gradual_data_wrangling.Rproj</strong> file in that folder to open up an RStudio project containing the files needed for the workshop. This might take a bit the first time. You’ll see <code>gradual_data_wrangling-master</code> in the top right corner when it is ready to go.</p></li>
 </ul>
 <p>You’ll be following along in the <strong>Part1-dplyr_intro.Rmd</strong>, <strong>Part2-loading_data.Rmd</strong>, and <strong>Part3-why_tidy_data.Rmd</strong> files, running the R code in the “chunks” there, and writing your own code to practice.</p>
 <p>Remember, in this workshop we will adhere the <a href="https://cascadiarconf.com/coc/">code of conduct for this conference</a>. Be respectful of your fellow students and let’s learn together.</p>
