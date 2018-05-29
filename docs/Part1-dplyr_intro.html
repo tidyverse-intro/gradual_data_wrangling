@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Chester Ismay" />
+
+
+<title>Part 1 - Intro to dplyr</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Part1-dplyr_intro.Rmd");
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Cascadia R 2018 - Data Wrangling workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Part1-dplyr_intro.html">Part 1</a>
+</li>
+<li>
+  <a href="Part2-loading_data.html">Part 2</a>
+</li>
+<li>
+  <a href="Part3-why_tidy_data.html">Part 3</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Part 1 - Intro to <code>dplyr</code></h1>
+<h4 class="author"><em>Chester Ismay</em></h4>
+
+</div>
+
+
+<p>In this section, we’ll discuss Data Wrangling/Transformation via the <code>dplyr</code> package. We’ll explore ways to</p>
+<ol style="list-style-type: decimal">
+<li>choose subsets of data,</li>
+<li>aggregate data to create summaries,</li>
+<li>make new variables,</li>
+<li>and sort your data frames.</li>
+</ol>
+<p>It is recommended you also explore the RStudio Cheatsheet on <a href="https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf">Data Transformation</a> as we discuss this content.</p>
+<div id="back-to-gapminder" class="section level3">
+<h3>Back to <code>gapminder</code></h3>
+<p>Here is a look at the <code>gapminder</code> data frame in the <code>gapminder</code> package.</p>
+<pre class="r"><code>library(tidyverse)
+library(gapminder)
+gapminder</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.
+##  6 Afghanistan Asia       1977    38.4 14880372      786.
+##  7 Afghanistan Asia       1982    39.9 12881816      978.
+##  8 Afghanistan Asia       1987    40.8 13867957      852.
+##  9 Afghanistan Asia       1992    41.7 16317921      649.
+## 10 Afghanistan Asia       1997    41.8 22227415      635.
+## # ... with 1,694 more rows</code></pre>
+<p>Say we wanted mean life expectancy across all years for Asia</p>
+<pre class="r"><code># Base R
+asia &lt;- gapminder[gapminder$continent == &quot;Asia&quot;, ]
+mean(asia$lifeExp)</code></pre>
+<pre><code>## [1] 60.0649</code></pre>
+<pre class="r"><code>library(dplyr)
+gapminder %&gt;% 
+  filter(continent == &quot;Asia&quot;) %&gt;%
+  summarize(mean_exp = mean(lifeExp))</code></pre>
+<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.4</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_exp
+##      &lt;dbl&gt;
+## 1     60.1</code></pre>
+</div>
+<div id="the-pipe" class="section level2">
+<h2>The pipe <code>%&gt;%</code></h2>
+<p><img src="figs/pipe.png" width="184" />    <img src="figs/MagrittePipe.jpg" /><!-- --></p>
+<ul>
+<li>A way to chain together commands</li>
+<li>This helps with making your analyses readable and exploratory at the same time</li>
+</ul>
+</div>
+<div id="the-five-main-verbs-5mv-of-data-wrangling" class="section level1">
+<h1>The Five Main Verbs (5MV) of data wrangling</h1>
+<div id="filter-summarize-group_by-mutate-arrange" class="section level3">
+<h3><code>filter()</code> <br> <code>summarize()</code> <br> <code>group_by()</code> <br> <code>mutate()</code> <br> <code>arrange()</code></h3>
+<hr />
+</div>
+<div id="filter" class="section level2">
+<h2><code>filter()</code></h2>
+<ul>
+<li>Select a subset of the rows of a data frame.</li>
+<li>The arguments are the “filters” that you’d like to apply.</li>
+</ul>
+<pre class="r"><code>library(gapminder); library(dplyr)
+gap_2007 &lt;- gapminder %&gt;% filter(year == 2007)
+gap_2007</code></pre>
+<pre><code>## # A tibble: 142 x 6
+##    country     continent  year lifeExp       pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       2007    43.8  31889923      975.
+##  2 Albania     Europe     2007    76.4   3600523     5937.
+##  3 Algeria     Africa     2007    72.3  33333216     6223.
+##  4 Angola      Africa     2007    42.7  12420476     4797.
+##  5 Argentina   Americas   2007    75.3  40301927    12779.
+##  6 Australia   Oceania    2007    81.2  20434176    34435.
+##  7 Austria     Europe     2007    79.8   8199783    36126.
+##  8 Bahrain     Asia       2007    75.6    708573    29796.
+##  9 Bangladesh  Asia       2007    64.1 150448339     1391.
+## 10 Belgium     Europe     2007    79.4  10392226    33693.
+## # ... with 132 more rows</code></pre>
+<ul>
+<li>Use <code>==</code> to compare a variable to a value.</li>
+<li>Remember to include quotes around strings, but they are not needed around numbers.</li>
+</ul>
+</div>
+<div id="your-turn" class="section level2">
+<h2>Your turn</h2>
+<div id="exercise-1.1" class="section level3">
+<h3>Exercise 1.1</h3>
+<p>Choose only Asian rows in the <code>gapminder</code> data and provide the name of <code>asian_countries</code> to that result.</p>
+<pre class="r"><code># Enter and try your answer here.</code></pre>
+</div>
+</div>
+<div id="logical-operators" class="section level2">
+<h2>Logical operators</h2>
+<ul>
+<li>Use <code>|</code> to check for any in multiple filters being true:</li>
+</ul>
+<pre class="r"><code>gapminder %&gt;% 
+  filter(year == 2002 | continent == &quot;Europe&quot;)</code></pre>
+<pre><code>## # A tibble: 472 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       2002    42.1 25268405      727.
+##  2 Albania     Europe     1952    55.2  1282697     1601.
+##  3 Albania     Europe     1957    59.3  1476505     1942.
+##  4 Albania     Europe     1962    64.8  1728137     2313.
+##  5 Albania     Europe     1967    66.2  1984060     2760.
+##  6 Albania     Europe     1972    67.7  2263554     3313.
+##  7 Albania     Europe     1977    68.9  2509048     3533.
+##  8 Albania     Europe     1982    70.4  2780097     3631.
+##  9 Albania     Europe     1987    72    3075321     3739.
+## 10 Albania     Europe     1992    71.6  3326498     2497.
+## # ... with 462 more rows</code></pre>
+<ul>
+<li>Use <code>&amp;</code> or <code>,</code> to check for all of multiple filters being true:</li>
+</ul>
+<pre class="r"><code>gapminder %&gt;% 
+  filter(year == 2002, continent == &quot;Europe&quot;)</code></pre>
+<pre><code>## # A tibble: 30 x 6
+##    country                continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;                  &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Albania                Europe     2002    75.7  3508512     4604.
+##  2 Austria                Europe     2002    79.0  8148312    32418.
+##  3 Belgium                Europe     2002    78.3 10311970    30486.
+##  4 Bosnia and Herzegovina Europe     2002    74.1  4165416     6019.
+##  5 Bulgaria               Europe     2002    72.1  7661799     7697.
+##  6 Croatia                Europe     2002    74.9  4481020    11628.
+##  7 Czech Republic         Europe     2002    75.5 10256295    17596.
+##  8 Denmark                Europe     2002    77.2  5374693    32167.
+##  9 Finland                Europe     2002    78.4  5193039    28205.
+## 10 France                 Europe     2002    79.6 59925035    28926.
+## # ... with 20 more rows</code></pre>
+<ul>
+<li>Use <code>%in%</code> to check for any being true (shortcut to using <code>|</code> repeatedly with <code>==</code>)</li>
+</ul>
+<pre class="r"><code>gapminder %&gt;% 
+  filter(country %in% c(&quot;Argentina&quot;, &quot;Belgium&quot;, &quot;Mexico&quot;),
+         year %in% c(1987, 1992))</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   country   continent  year lifeExp      pop gdpPercap
+##   &lt;fct&gt;     &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+## 1 Argentina Americas   1987    70.8 31620918     9140.
+## 2 Argentina Americas   1992    71.9 33958947     9308.
+## 3 Belgium   Europe     1987    75.4  9870200    22526.
+## 4 Belgium   Europe     1992    76.5 10045622    25576.
+## 5 Mexico    Americas   1987    69.5 80122492     8688.
+## 6 Mexico    Americas   1992    71.5 88111030     9472.</code></pre>
+</div>
+<div id="your-turn-1" class="section level2">
+<h2>Your turn</h2>
+<div id="exercise-1.2" class="section level3">
+<h3>Exercise 1.2</h3>
+<p>Choose only rows corresponding to African or European nations.</p>
+<pre class="r"><code># Enter and try your answer here.</code></pre>
+</div>
+</div>
+<div id="summarize" class="section level2">
+<h2><code>summarize()</code></h2>
+<ul>
+<li>Any numerical summary that you want to apply to a column of a data frame is specified within <code>summarize()</code>.</li>
+</ul>
+<pre class="r"><code>max_exp_1997 &lt;- gapminder %&gt;% 
+  filter(year == 1997) %&gt;% 
+  summarize(max_exp = max(lifeExp))
+max_exp_1997</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   max_exp
+##     &lt;dbl&gt;
+## 1    80.7</code></pre>
+<div id="combining-summarize-with-group_by" class="section level3">
+<h3>Combining <code>summarize()</code> with <code>group_by()</code></h3>
+<p>When you’d like to determine a numerical summary for all levels of a different categorical variable</p>
+<pre class="r"><code>max_exp_1997_by_cont &lt;- gapminder %&gt;% 
+  filter(year == 1997) %&gt;% 
+  group_by(continent) %&gt;%
+  summarize(max_exp = max(lifeExp))
+max_exp_1997_by_cont</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   continent max_exp
+##   &lt;fct&gt;       &lt;dbl&gt;
+## 1 Africa       74.8
+## 2 Americas     78.6
+## 3 Asia         80.7
+## 4 Europe       79.4
+## 5 Oceania      78.8</code></pre>
+</div>
+<div id="without-the" class="section level3">
+<h3>Without the <code>%&gt;%</code></h3>
+<p>It’s hard to appreciate the <code>%&gt;%</code> without seeing what the code would look like without it:</p>
+<pre class="r"><code>max_exp_1997_by_cont &lt;- 
+  summarize(
+    group_by(
+      filter(
+        gapminder, 
+          year == 1997), 
+      continent),
+    max_exp = max(lifeExp))
+max_exp_1997_by_cont</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   continent max_exp
+##   &lt;fct&gt;       &lt;dbl&gt;
+## 1 Africa       74.8
+## 2 Americas     78.6
+## 3 Asia         80.7
+## 4 Europe       79.4
+## 5 Oceania      78.8</code></pre>
+</div>
+</div>
+<div id="mutate" class="section level2">
+<h2><code>mutate()</code></h2>
+<ul>
+<li>Allows you to
+<ol style="list-style-type: decimal">
+<li>create a new variable based on other variables OR</li>
+<li>change the contents of an existing variable</li>
+</ol></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>create a new variable based on other variables</li>
+</ol>
+<pre class="r"><code>gap_w_gdp &lt;- gapminder %&gt;% mutate(gdp = pop * gdpPercap)
+gap_w_gdp</code></pre>
+<pre><code>## # A tibble: 1,704 x 7
+##    country     continent  year lifeExp      pop gdpPercap          gdp
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.  6567086330.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.  7585448670.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.  8758855797.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.  9648014150.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.  9678553274.
+##  6 Afghanistan Asia       1977    38.4 14880372      786. 11697659231.
+##  7 Afghanistan Asia       1982    39.9 12881816      978. 12598563401.
+##  8 Afghanistan Asia       1987    40.8 13867957      852. 11820990309.
+##  9 Afghanistan Asia       1992    41.7 16317921      649. 10595901589.
+## 10 Afghanistan Asia       1997    41.8 22227415      635. 14121995875.
+## # ... with 1,694 more rows</code></pre>
+</div>
+<div id="mutate-1" class="section level2">
+<h2><code>mutate()</code></h2>
+<ol start="2" style="list-style-type: decimal">
+<li>change the contents of an existing variable</li>
+</ol>
+<pre class="r"><code>gap_weird &lt;- gapminder %&gt;% mutate(pop = pop + 1000)
+gap_weird</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8426333      779.
+##  2 Afghanistan Asia       1957    30.3  9241934      821.
+##  3 Afghanistan Asia       1962    32.0 10268083      853.
+##  4 Afghanistan Asia       1967    34.0 11538966      836.
+##  5 Afghanistan Asia       1972    36.1 13080460      740.
+##  6 Afghanistan Asia       1977    38.4 14881372      786.
+##  7 Afghanistan Asia       1982    39.9 12882816      978.
+##  8 Afghanistan Asia       1987    40.8 13868957      852.
+##  9 Afghanistan Asia       1992    41.7 16318921      649.
+## 10 Afghanistan Asia       1997    41.8 22228415      635.
+## # ... with 1,694 more rows</code></pre>
+</div>
+<div id="arrange" class="section level2">
+<h2><code>arrange()</code></h2>
+<ul>
+<li>Reorders the rows in a data frame based on the values of one or more variables</li>
+</ul>
+<pre class="r"><code>gapminder %&gt;%
+  arrange(year, country)</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.
+##  2 Albania     Europe     1952    55.2  1282697     1601.
+##  3 Algeria     Africa     1952    43.1  9279525     2449.
+##  4 Angola      Africa     1952    30.0  4232095     3521.
+##  5 Argentina   Americas   1952    62.5 17876956     5911.
+##  6 Australia   Oceania    1952    69.1  8691212    10040.
+##  7 Austria     Europe     1952    66.8  6927772     6137.
+##  8 Bahrain     Asia       1952    50.9   120447     9867.
+##  9 Bangladesh  Asia       1952    37.5 46886859      684.
+## 10 Belgium     Europe     1952    68    8730405     8343.
+## # ... with 1,694 more rows</code></pre>
+<ul>
+<li>Can also put into descending order</li>
+</ul>
+<pre class="r"><code>gapminder %&gt;%
+  filter(year &gt; 2000) %&gt;%
+  arrange(desc(lifeExp))</code></pre>
+<pre><code>## # A tibble: 284 x 6
+##    country          continent  year lifeExp       pop gdpPercap
+##    &lt;fct&gt;            &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+##  1 Japan            Asia       2007    82.6 127467972    31656.
+##  2 Hong Kong, China Asia       2007    82.2   6980412    39725.
+##  3 Japan            Asia       2002    82   127065841    28605.
+##  4 Iceland          Europe     2007    81.8    301931    36181.
+##  5 Switzerland      Europe     2007    81.7   7554661    37506.
+##  6 Hong Kong, China Asia       2002    81.5   6762476    30209.
+##  7 Australia        Oceania    2007    81.2  20434176    34435.
+##  8 Spain            Europe     2007    80.9  40448191    28821.
+##  9 Sweden           Europe     2007    80.9   9031088    33860.
+## 10 Israel           Asia       2007    80.7   6426679    25523.
+## # ... with 274 more rows</code></pre>
+</div>
+<div id="other-useful-dplyr-verbs" class="section level2">
+<h2>Other useful <code>dplyr</code> verbs</h2>
+<ul>
+<li><code>select</code></li>
+<li><code>top_n</code></li>
+<li><code>sample_n</code></li>
+<li><code>slice</code></li>
+<li><code>glimpse</code></li>
+<li><code>rename</code></li>
+</ul>
+</div>
+<div id="your-task" class="section level2">
+<h2>Your Task</h2>
+<div id="exercise-1.3" class="section level3">
+<h3>Exercise 1.3</h3>
+<p>Determine which African country had the highest GDP per capita in 1982 using the <code>gapminder</code> data in the <code>gapminder</code> package.</p>
+<pre class="r"><code>#Space for your answer here.</code></pre>
+<p><strong>Challenge</strong></p>
+</div>
+<div id="exercise-1.3c" class="section level3">
+<h3>Exercise 1.3C</h3>
+<p>For both of these tasks below, use the <code>bechdel</code> data frame in the <code>fivethirtyeight</code> package:</p>
+<ul>
+<li>Use the <code>count</code> function in the <code>dplyr</code> package to determine how many movies in 2013 fell into each of the different categories for <code>clean_test</code>.</li>
+<li>Determine the percentage of movies that received the value of <code>&quot;ok&quot;</code> across all years.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="your-task-1" class="section level2">
+<h2>Your Task</h2>
+<div id="exercise-1.4" class="section level3">
+<h3>Exercise 1.4</h3>
+<p>Determine the top five movies in terms of domestic return on investment for 2013 scaled data using the <code>bechdel</code> data frame in the <code>fivethirtyeight</code> package.</p>
+<pre class="r"><code>#Space for your answer here.</code></pre>
+</div>
+</div>
+<div id="what-you-learned-in-this-section" class="section level2">
+<h2>What you learned in this section</h2>
+<p>Different ways in the <code>dplyr</code> package to</p>
+<ul>
+<li>choose subsets of data using the <code>filter()</code> verb</li>
+<li>aggregate data to create summaries using the <code>summarize()</code> and <code>group_by</code> verbs</li>
+<li>make new variables using the <code>mutate()</code> verb</li>
+<li>sort your data frames using the <code>arrange()</code> verb</li>
+</ul>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUGFydCAxIC0gSW50cm8gdG8gYGRwbHlyYCIKYXV0aG9yOiAiQ2hlc3RlciBJc21heSIKb3V0cHV0OiAKICBodG1sX2RvY3VtZW50OgogICAgY29kZV9kb3dubG9hZDogdHJ1ZQogICAgY29kZV9mb2xkaW5nOiBoaWRlCi0tLQoKSW4gdGhpcyBzZWN0aW9uLCB3ZSdsbCBkaXNjdXNzIERhdGEgV3JhbmdsaW5nL1RyYW5zZm9ybWF0aW9uIHZpYSB0aGUgYGRwbHlyYCBwYWNrYWdlLiAgV2UnbGwgZXhwbG9yZSB3YXlzIHRvCgoxLiBjaG9vc2Ugc3Vic2V0cyBvZiBkYXRhLCAKMS4gYWdncmVnYXRlIGRhdGEgdG8gY3JlYXRlIHN1bW1hcmllcywgCjEuIG1ha2UgbmV3IHZhcmlhYmxlcywgCjEuIGFuZCBzb3J0IHlvdXIgZGF0YSBmcmFtZXMuICAKCkl0IGlzIHJlY29tbWVuZGVkIHlvdSBhbHNvIGV4cGxvcmUgdGhlIFJTdHVkaW8gQ2hlYXRzaGVldCBvbiBbRGF0YSBUcmFuc2Zvcm1hdGlvbl0oaHR0cHM6Ly9naXRodWIuY29tL3JzdHVkaW8vY2hlYXRzaGVldHMvcmF3L21hc3Rlci9kYXRhLXRyYW5zZm9ybWF0aW9uLnBkZikgYXMgd2UgZGlzY3VzcyB0aGlzIGNvbnRlbnQuCgojIyMgQmFjayB0byBgZ2FwbWluZGVyYAoKSGVyZSBpcyBhIGxvb2sgYXQgdGhlIGBnYXBtaW5kZXJgIGRhdGEgZnJhbWUgaW4gdGhlIGBnYXBtaW5kZXJgIHBhY2thZ2UuCgpgYGB7ciBtZXNzYWdlPUZBTFNFfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShnYXBtaW5kZXIpCmdhcG1pbmRlcgpgYGAKClNheSB3ZSB3YW50ZWQgbWVhbiBsaWZlIGV4cGVjdGFuY3kgYWNyb3NzIGFsbCB5ZWFycyBmb3IgQXNpYQoKYGBge3J9CiMgQmFzZSBSCmFzaWEgPC0gZ2FwbWluZGVyW2dhcG1pbmRlciRjb250aW5lbnQgPT0gIkFzaWEiLCBdCm1lYW4oYXNpYSRsaWZlRXhwKQpgYGAKCmBgYHtyfQpsaWJyYXJ5KGRwbHlyKQpnYXBtaW5kZXIgJT4lIAogIGZpbHRlcihjb250aW5lbnQgPT0gIkFzaWEiKSAlPiUKICBzdW1tYXJpemUobWVhbl9leHAgPSBtZWFuKGxpZmVFeHApKQpgYGAKCiMjIFRoZSBwaXBlIGAlPiVgCgpgciBrbml0cjo6aW5jbHVkZV9ncmFwaGljcygiZmlncy9waXBlLnBuZyIpYCAmZW1zcDsgJmVtc3A7YHIga25pdHI6OmluY2x1ZGVfZ3JhcGhpY3MoImZpZ3MvTWFncml0dGVQaXBlLmpwZyIpYAoKLSBBIHdheSB0byBjaGFpbiB0b2dldGhlciBjb21tYW5kcwotIFRoaXMgaGVscHMgd2l0aCBtYWtpbmcgeW91ciBhbmFseXNlcyByZWFkYWJsZSBhbmQgZXhwbG9yYXRvcnkgYXQgdGhlIHNhbWUgdGltZQoKCiMgVGhlIEZpdmUgTWFpbiBWZXJicyAoNU1WKSBvZiBkYXRhIHdyYW5nbGluZwoKIyMjIGBmaWx0ZXIoKWAgPGJyPiBgc3VtbWFyaXplKClgIDxicj4gYGdyb3VwX2J5KClgIDxicj4gYG11dGF0ZSgpYCA8YnI+IGBhcnJhbmdlKClgCgotLS0KCiMjIGBmaWx0ZXIoKWAKCi0gU2VsZWN0IGEgc3Vic2V0IG9mIHRoZSByb3dzIG9mIGEgZGF0YSBmcmFtZS4gCi0gVGhlIGFyZ3VtZW50cyBhcmUgdGhlICJmaWx0ZXJzIiB0aGF0IHlvdSdkIGxpa2UgdG8gYXBwbHkuCgpgYGB7cn0KbGlicmFyeShnYXBtaW5kZXIpOyBsaWJyYXJ5KGRwbHlyKQpnYXBfMjAwNyA8LSBnYXBtaW5kZXIgJT4lIGZpbHRlcih5ZWFyID09IDIwMDcpCmdhcF8yMDA3CmBgYAoKLSBVc2UgYD09YCB0byBjb21wYXJlIGEgdmFyaWFibGUgdG8gYSB2YWx1ZS4KLSBSZW1lbWJlciB0byBpbmNsdWRlIHF1b3RlcyBhcm91bmQgc3RyaW5ncywgYnV0IHRoZXkgYXJlIG5vdCBuZWVkZWQgYXJvdW5kIG51bWJlcnMuCgojIyBZb3VyIHR1cm4KCiMjIyBFeGVyY2lzZSAxLjEKCkNob29zZSBvbmx5IEFzaWFuIHJvd3MgaW4gdGhlIGBnYXBtaW5kZXJgIGRhdGEgYW5kIHByb3ZpZGUgdGhlIG5hbWUgb2YgYGFzaWFuX2NvdW50cmllc2AgdG8gdGhhdCByZXN1bHQuCgpgYGB7cn0KIyBFbnRlciBhbmQgdHJ5IHlvdXIgYW5zd2VyIGhlcmUuCmBgYAoKCiMjIExvZ2ljYWwgb3BlcmF0b3JzCgotIFVzZSBgfGAgdG8gY2hlY2sgZm9yIGFueSBpbiBtdWx0aXBsZSBmaWx0ZXJzIGJlaW5nIHRydWU6CgpgYGB7cn0KZ2FwbWluZGVyICU+JSAKICBmaWx0ZXIoeWVhciA9PSAyMDAyIHwgY29udGluZW50ID09ICJFdXJvcGUiKQpgYGAKCi0gVXNlIGAmYCBvciBgLGAgdG8gY2hlY2sgZm9yIGFsbCBvZiBtdWx0aXBsZSBmaWx0ZXJzIGJlaW5nIHRydWU6CgpgYGB7cn0KZ2FwbWluZGVyICU+JSAKICBmaWx0ZXIoeWVhciA9PSAyMDAyLCBjb250aW5lbnQgPT0gIkV1cm9wZSIpCmBgYAoKLSBVc2UgYCVpbiVgIHRvIGNoZWNrIGZvciBhbnkgYmVpbmcgdHJ1ZSAoc2hvcnRjdXQgdG8gdXNpbmcgYHxgIHJlcGVhdGVkbHkgd2l0aCBgPT1gKQoKYGBge3J9CmdhcG1pbmRlciAlPiUgCiAgZmlsdGVyKGNvdW50cnkgJWluJSBjKCJBcmdlbnRpbmEiLCAiQmVsZ2l1bSIsICJNZXhpY28iKSwKICAgICAgICAgeWVhciAlaW4lIGMoMTk4NywgMTk5MikpCmBgYAoKIyMgWW91ciB0dXJuCgojIyMgRXhlcmNpc2UgMS4yCgpDaG9vc2Ugb25seSByb3dzIGNvcnJlc3BvbmRpbmcgdG8gQWZyaWNhbiBvciBFdXJvcGVhbiBuYXRpb25zLgoKYGBge3J9CiMgRW50ZXIgYW5kIHRyeSB5b3VyIGFuc3dlciBoZXJlLgpgYGAKCgojIyBgc3VtbWFyaXplKClgCgotIEFueSBudW1lcmljYWwgc3VtbWFyeSB0aGF0IHlvdSB3YW50IHRvIGFwcGx5IHRvIGEgY29sdW1uIG9mIGEgZGF0YSBmcmFtZSBpcyBzcGVjaWZpZWQgd2l0aGluIGBzdW1tYXJpemUoKWAuCgpgYGB7cn0KbWF4X2V4cF8xOTk3IDwtIGdhcG1pbmRlciAlPiUgCiAgZmlsdGVyKHllYXIgPT0gMTk5NykgJT4lIAogIHN1bW1hcml6ZShtYXhfZXhwID0gbWF4KGxpZmVFeHApKQptYXhfZXhwXzE5OTcKYGBgCgojIyMgQ29tYmluaW5nIGBzdW1tYXJpemUoKWAgd2l0aCBgZ3JvdXBfYnkoKWAKCldoZW4geW91J2QgbGlrZSB0byBkZXRlcm1pbmUgYSBudW1lcmljYWwgc3VtbWFyeSBmb3IgYWxsCmxldmVscyBvZiBhIGRpZmZlcmVudCBjYXRlZ29yaWNhbCB2YXJpYWJsZQoKYGBge3J9Cm1heF9leHBfMTk5N19ieV9jb250IDwtIGdhcG1pbmRlciAlPiUgCiAgZmlsdGVyKHllYXIgPT0gMTk5NykgJT4lIAogIGdyb3VwX2J5KGNvbnRpbmVudCkgJT4lCiAgc3VtbWFyaXplKG1heF9leHAgPSBtYXgobGlmZUV4cCkpCm1heF9leHBfMTk5N19ieV9jb250CmBgYAoKCiMjIyBXaXRob3V0IHRoZSBgJT4lYAoKSXQncyBoYXJkIHRvIGFwcHJlY2lhdGUgdGhlIGAlPiVgIHdpdGhvdXQgc2VlaW5nIHdoYXQgdGhlIGNvZGUgd291bGQgbG9vayBsaWtlIHdpdGhvdXQgaXQ6CgpgYGB7cn0KbWF4X2V4cF8xOTk3X2J5X2NvbnQgPC0gCiAgc3VtbWFyaXplKAogICAgZ3JvdXBfYnkoCiAgICAgIGZpbHRlcigKICAgICAgICBnYXBtaW5kZXIsIAogICAgICAgICAgeWVhciA9PSAxOTk3KSwgCiAgICAgIGNvbnRpbmVudCksCiAgICBtYXhfZXhwID0gbWF4KGxpZmVFeHApKQptYXhfZXhwXzE5OTdfYnlfY29udApgYGAKCiMjIGBtdXRhdGUoKWAKCi0gQWxsb3dzIHlvdSB0byAKICAgIDEuIGNyZWF0ZSBhIG5ldyB2YXJpYWJsZSBiYXNlZCBvbiBvdGhlciB2YXJpYWJsZXMgT1IKICAgIDIuIGNoYW5nZSB0aGUgY29udGVudHMgb2YgYW4gZXhpc3RpbmcgdmFyaWFibGUKCgoxLiBjcmVhdGUgYSBuZXcgdmFyaWFibGUgYmFzZWQgb24gb3RoZXIgdmFyaWFibGVzCgpgYGB7cn0KZ2FwX3dfZ2RwIDwtIGdhcG1pbmRlciAlPiUgbXV0YXRlKGdkcCA9IHBvcCAqIGdkcFBlcmNhcCkKZ2FwX3dfZ2RwCmBgYAoKIyMgYG11dGF0ZSgpYAoKMi4gY2hhbmdlIHRoZSBjb250ZW50cyBvZiBhbiBleGlzdGluZyB2YXJpYWJsZQoKYGBge3J9CmdhcF93ZWlyZCA8LSBnYXBtaW5kZXIgJT4lIG11dGF0ZShwb3AgPSBwb3AgKyAxMDAwKQpnYXBfd2VpcmQKYGBgCgojIyBgYXJyYW5nZSgpYAoKLSBSZW9yZGVycyB0aGUgcm93cyBpbiBhIGRhdGEgZnJhbWUgYmFzZWQgb24gdGhlIHZhbHVlcyBvZiBvbmUgb3IgbW9yZSB2YXJpYWJsZXMKCmBgYHtyfQpnYXBtaW5kZXIgJT4lCiAgYXJyYW5nZSh5ZWFyLCBjb3VudHJ5KQpgYGAKCi0gQ2FuIGFsc28gcHV0IGludG8gZGVzY2VuZGluZyBvcmRlcgoKYGBge3IgZGVzY30KZ2FwbWluZGVyICU+JQogIGZpbHRlcih5ZWFyID4gMjAwMCkgJT4lCiAgYXJyYW5nZShkZXNjKGxpZmVFeHApKQpgYGAKCiMjIE90aGVyIHVzZWZ1bCBgZHBseXJgIHZlcmJzCgotIGBzZWxlY3RgCi0gYHRvcF9uYAotIGBzYW1wbGVfbmAKLSBgc2xpY2VgCi0gYGdsaW1wc2VgCi0gYHJlbmFtZWAKCiMjIFlvdXIgVGFzawoKIyMjIEV4ZXJjaXNlIDEuMwoKRGV0ZXJtaW5lIHdoaWNoIEFmcmljYW4gY291bnRyeSBoYWQgdGhlIGhpZ2hlc3QgR0RQIHBlciBjYXBpdGEgaW4gMTk4MiB1c2luZyB0aGUgYGdhcG1pbmRlcmAgZGF0YSBpbiB0aGUgYGdhcG1pbmRlcmAgcGFja2FnZS4KCmBgYHtyfQojU3BhY2UgZm9yIHlvdXIgYW5zd2VyIGhlcmUuCgpgYGAKCioqQ2hhbGxlbmdlKioKCiMjIyBFeGVyY2lzZSAxLjNDCgpGb3IgYm90aCBvZiB0aGVzZSB0YXNrcyBiZWxvdywgdXNlIHRoZSBgYmVjaGRlbGAgZGF0YSBmcmFtZSBpbiB0aGUgYGZpdmV0aGlydHllaWdodGAgcGFja2FnZToKCi0gVXNlIHRoZSBgY291bnRgIGZ1bmN0aW9uIGluIHRoZSBgZHBseXJgIHBhY2thZ2UgdG8gZGV0ZXJtaW5lIGhvdyBtYW55IG1vdmllcwppbiAyMDEzIGZlbGwgaW50byBlYWNoIG9mIHRoZSBkaWZmZXJlbnQgY2F0ZWdvcmllcyBmb3IgYGNsZWFuX3Rlc3RgLgotIERldGVybWluZSB0aGUgcGVyY2VudGFnZSBvZiBtb3ZpZXMgdGhhdCByZWNlaXZlZCB0aGUgdmFsdWUgb2YgYCJvayJgIGFjcm9zcyBhbGwgeWVhcnMuCgoKLS0tCgoKIyMgWW91ciBUYXNrCgojIyMgRXhlcmNpc2UgMS40CgpEZXRlcm1pbmUgdGhlIHRvcCBmaXZlIG1vdmllcyBpbiB0ZXJtcyBvZiBkb21lc3RpYyByZXR1cm4gb24gaW52ZXN0bWVudCBmb3IgMjAxMyBzY2FsZWQgZGF0YSB1c2luZyB0aGUgYGJlY2hkZWxgIGRhdGEgZnJhbWUgaW4gdGhlIGBmaXZldGhpcnR5ZWlnaHRgIHBhY2thZ2UuCgoKYGBge3J9CiNTcGFjZSBmb3IgeW91ciBhbnN3ZXIgaGVyZS4KYGBgCgoKIyMgV2hhdCB5b3UgbGVhcm5lZCBpbiB0aGlzIHNlY3Rpb24KCkRpZmZlcmVudCB3YXlzIGluIHRoZSBgZHBseXJgIHBhY2thZ2UgdG8KCi0gY2hvb3NlIHN1YnNldHMgb2YgZGF0YSB1c2luZyB0aGUgYGZpbHRlcigpYCB2ZXJiCi0gYWdncmVnYXRlIGRhdGEgdG8gY3JlYXRlIHN1bW1hcmllcyB1c2luZyB0aGUgYHN1bW1hcml6ZSgpYCBhbmQgYGdyb3VwX2J5YCB2ZXJicwotIG1ha2UgbmV3IHZhcmlhYmxlcyB1c2luZyB0aGUgYG11dGF0ZSgpYCB2ZXJiCi0gc29ydCB5b3VyIGRhdGEgZnJhbWVzIHVzaW5nIHRoZSBgYXJyYW5nZSgpYCB2ZXJi</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

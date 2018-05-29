@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Chester Ismay and Ted Laderas" />
+
+
+<title>Part 2 - Loading data with readxl, haven and readr</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Part2-loading_data.Rmd");
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Cascadia R 2018 - Data Wrangling workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Part1-dplyr_intro.html">Part 1</a>
+</li>
+<li>
+  <a href="Part2-loading_data.html">Part 2</a>
+</li>
+<li>
+  <a href="Part3-why_tidy_data.html">Part 3</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Part 2 - Loading data with <code>readxl</code>, <code>haven</code> and <code>readr</code></h1>
+<h4 class="author"><em>Chester Ismay and Ted Laderas</em></h4>
+
+</div>
+
+
+<p>In this section, we’ll load in external data using several built-in packages to the <code>tidyverse</code>. In particular, we’ll cover:</p>
+<ol style="list-style-type: decimal">
+<li>Loading excel spreadsheets with <code>readxl</code></li>
+<li>Loading in flat text file data, comma separated.</li>
+<li>Loading datafiles from SAS/SPSS with <code>haven</code></li>
+</ol>
+<div id="some-things-to-keep-in-mind" class="section level2">
+<h2>Some things to keep in mind</h2>
+<p>For the most part, we will be loading in our data as <code>data.frame</code>s or <code>tbl</code>s with these packages.</p>
+<p>One thing to keep in mind is that oftentimes, files have a bit of explanatory text and the header is not always going to be on the first line in our files.</p>
+<p><strong>Important note</strong>: The most common problem encountered when reading in data from a file is not reading specifying where to tell RStudio to look for the file. RStudio Projects were created to help with this process.</p>
+<p>Look down to just below the words <strong>Console</strong> in the tabs in the bottom left of RStudio. Here you will find the “current working directory.” This is where R is working from at the moment. You can assess all files relative to this directory without doing anything extra at all in terms of specifying the path to get to the file. We’ll see examples of this in a bit. If you want to read in files from somewhere outside of this current working directory, you’d need to tell R exactly where to find the file. More on this too below.</p>
+<p>Directories and file management is often really tricky for beginners. If you struggle with this, that’s OK. It will get better as you get more practice. Pay careful attention to the error messages and learn to love the <strong>Files</strong> tab in the bottom right of RStudio. This will help you track down where your files are located relative to the current working directory.</p>
+</div>
+<div id="readxl-package" class="section level2">
+<h2><code>readxl</code> package</h2>
+<p>The <code>readxl</code> package handles loading both 2008 (xlsx) and earlier excel files (xls). To read in Excel files, use the <code>read_excel()</code> function:</p>
+<pre class="r"><code>library(readxl)</code></pre>
+<pre><code>## Warning: package &#39;readxl&#39; was built under R version 3.4.4</code></pre>
+<pre class="r"><code>movies_from_excel &lt;- read_excel(&quot;data/movies.xlsx&quot;, sheet = 1)</code></pre>
+</div>
+<div id="readr-package" class="section level2">
+<h2><code>readr</code> package</h2>
+<p>Flat files, such as comma-separated-value (.csv), and other types of simple rectangular data.</p>
+<ul>
+<li><code>read_csv</code>: Reading in comma separated value files</li>
+</ul>
+<pre class="r"><code>library(readr)
+movies_from_csv &lt;- read_csv(&quot;data/movies.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   title = col_character(),
+##   year = col_integer(),
+##   length = col_integer(),
+##   budget = col_integer(),
+##   votes = col_integer(),
+##   mpaa = col_character(),
+##   Action = col_integer(),
+##   Animation = col_integer(),
+##   Comedy = col_integer(),
+##   Drama = col_integer(),
+##   Documentary = col_integer(),
+##   Romance = col_integer(),
+##   Short = col_integer()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<ul>
+<li><code>read_delim</code>: Your general purpose flat file reader specifying</li>
+</ul>
+<pre class="r"><code>library(readr)
+movies &lt;- read_delim(&quot;data/movies.csv&quot;, delim = &quot;,&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   title = col_character(),
+##   year = col_integer(),
+##   length = col_integer(),
+##   budget = col_integer(),
+##   votes = col_integer(),
+##   mpaa = col_character(),
+##   Action = col_integer(),
+##   Animation = col_integer(),
+##   Comedy = col_integer(),
+##   Drama = col_integer(),
+##   Documentary = col_integer(),
+##   Romance = col_integer(),
+##   Short = col_integer()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<p>Be sure to check the help for all of these (via <code>?read_delim</code>) to see all of the other options available. Some that come up frequently in our own experience are</p>
+<ul>
+<li><code>na</code></li>
+<li><code>skip</code></li>
+<li><code>col_types</code></li>
+</ul>
+</div>
+<div id="haven-package" class="section level2">
+<h2><code>haven</code> package</h2>
+<p>Reading in “external” data from <del>inferior</del>, I mean, other software packages like SPSS (<code>.sav</code>), Stata (<code>.dta</code>), SAS, etc. Check the <a href="http://haven.tidyverse.org/">haven package website</a> for assistance.</p>
+</div>
+<div id="your-turn" class="section level2">
+<h2>Your turn</h2>
+<div id="exercise-2.1" class="section level3">
+<h3>Exercise 2.1</h3>
+<p>Load the periodic table data stored in the <code>data</code> folder.</p>
+<pre class="r"><code># Write and check your answer here.</code></pre>
+</div>
+</div>
+<div id="what-you-learned-in-this-section" class="section level2">
+<h2>What you learned in this section</h2>
+<p>Read in data from files into <code>data.frame</code>s from</p>
+<ul>
+<li>Excel files using the <code>read_excel()</code> function in the <code>readxl</code> package,</li>
+<li>CSV files using the <code>read_csv()</code> and <code>read_delim()</code> functions in the <code>readr</code> package</li>
+<li>data from proprietary statistical software using the <code>read_spss()</code>, <code>read_stata()</code>, and <code>read_sas()</code> functions in the <code>haven</code> package</li>
+</ul>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUGFydCAyIC0gTG9hZGluZyBkYXRhIHdpdGggYHJlYWR4bGAsIGBoYXZlbmAgYW5kIGByZWFkcmAiCmF1dGhvcjogIkNoZXN0ZXIgSXNtYXkgYW5kIFRlZCBMYWRlcmFzIgpvdXRwdXQ6IAogIGh0bWxfZG9jdW1lbnQ6CiAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCiAgICBjb2RlX2ZvbGRpbmc6IGhpZGUKLS0tCgpJbiB0aGlzIHNlY3Rpb24sIHdlJ2xsIGxvYWQgaW4gZXh0ZXJuYWwgZGF0YSB1c2luZyBzZXZlcmFsIGJ1aWx0LWluIHBhY2thZ2VzIHRvIHRoZSBgdGlkeXZlcnNlYC4gSW4gcGFydGljdWxhciwgd2UnbGwgY292ZXI6CgoxLiBMb2FkaW5nIGV4Y2VsIHNwcmVhZHNoZWV0cyB3aXRoIGByZWFkeGxgCjIuIExvYWRpbmcgaW4gZmxhdCB0ZXh0IGZpbGUgZGF0YSwgY29tbWEgc2VwYXJhdGVkLgozLiBMb2FkaW5nIGRhdGFmaWxlcyBmcm9tIFNBUy9TUFNTIHdpdGggYGhhdmVuYAoKCiMjIFNvbWUgdGhpbmdzIHRvIGtlZXAgaW4gbWluZAoKRm9yIHRoZSBtb3N0IHBhcnQsIHdlIHdpbGwgYmUgbG9hZGluZyBpbiBvdXIgZGF0YSBhcyBgZGF0YS5mcmFtZWBzIG9yIGB0YmxgcyB3aXRoIHRoZXNlIHBhY2thZ2VzLiAKCk9uZSB0aGluZyB0byBrZWVwIGluIG1pbmQgaXMgdGhhdCBvZnRlbnRpbWVzLCBmaWxlcyBoYXZlIGEgYml0IG9mIGV4cGxhbmF0b3J5IHRleHQgYW5kIHRoZSBoZWFkZXIgaXMgbm90IGFsd2F5cyBnb2luZyB0byBiZSBvbiB0aGUgZmlyc3QgbGluZSBpbiBvdXIgZmlsZXMuCgoqKkltcG9ydGFudCBub3RlKio6IFRoZSBtb3N0IGNvbW1vbiBwcm9ibGVtIGVuY291bnRlcmVkIHdoZW4gcmVhZGluZyBpbiBkYXRhIGZyb20gYSBmaWxlIGlzIG5vdCByZWFkaW5nIHNwZWNpZnlpbmcgd2hlcmUgdG8gdGVsbCBSU3R1ZGlvIHRvIGxvb2sgZm9yIHRoZSBmaWxlLiBSU3R1ZGlvIFByb2plY3RzIHdlcmUgY3JlYXRlZCB0byBoZWxwIHdpdGggdGhpcyBwcm9jZXNzLgoKTG9vayBkb3duIHRvIGp1c3QgYmVsb3cgdGhlIHdvcmRzICoqQ29uc29sZSoqIGluIHRoZSB0YWJzIGluIHRoZSBib3R0b20gbGVmdCBvZiBSU3R1ZGlvLiBIZXJlIHlvdSB3aWxsIGZpbmQgdGhlICJjdXJyZW50IHdvcmtpbmcgZGlyZWN0b3J5LiIgVGhpcyBpcyB3aGVyZSBSIGlzIHdvcmtpbmcgZnJvbSBhdCB0aGUgbW9tZW50LiBZb3UgY2FuIGFzc2VzcyBhbGwgZmlsZXMgcmVsYXRpdmUgdG8gdGhpcyBkaXJlY3Rvcnkgd2l0aG91dCBkb2luZyBhbnl0aGluZyBleHRyYSBhdCBhbGwgaW4gdGVybXMgb2Ygc3BlY2lmeWluZyB0aGUgcGF0aCB0byBnZXQgdG8gdGhlIGZpbGUuIFdlJ2xsIHNlZSBleGFtcGxlcyBvZiB0aGlzIGluIGEgYml0LiBJZiB5b3Ugd2FudCB0byByZWFkIGluIGZpbGVzIGZyb20gc29tZXdoZXJlIG91dHNpZGUgb2YgdGhpcyBjdXJyZW50IHdvcmtpbmcgZGlyZWN0b3J5LCB5b3UnZCBuZWVkIHRvIHRlbGwgUiBleGFjdGx5IHdoZXJlIHRvIGZpbmQgdGhlIGZpbGUuIE1vcmUgb24gdGhpcyB0b28gYmVsb3cuCgpEaXJlY3RvcmllcyBhbmQgZmlsZSBtYW5hZ2VtZW50IGlzIG9mdGVuIHJlYWxseSB0cmlja3kgZm9yIGJlZ2lubmVycy4gSWYgeW91IHN0cnVnZ2xlIHdpdGggdGhpcywgdGhhdCdzIE9LLiBJdCB3aWxsIGdldCBiZXR0ZXIgYXMgeW91IGdldCBtb3JlIHByYWN0aWNlLiBQYXkgY2FyZWZ1bCBhdHRlbnRpb24gdG8gdGhlIGVycm9yIG1lc3NhZ2VzIGFuZCBsZWFybiB0byBsb3ZlIHRoZSAqKkZpbGVzKiogdGFiIGluIHRoZSBib3R0b20gcmlnaHQgb2YgUlN0dWRpby4gVGhpcyB3aWxsIGhlbHAgeW91IHRyYWNrIGRvd24gd2hlcmUgeW91ciBmaWxlcyBhcmUgbG9jYXRlZCByZWxhdGl2ZSB0byB0aGUgY3VycmVudCB3b3JraW5nIGRpcmVjdG9yeS4KCiMjIGByZWFkeGxgIHBhY2thZ2UKClRoZSBgcmVhZHhsYCBwYWNrYWdlIGhhbmRsZXMgbG9hZGluZyBib3RoIDIwMDggKHhsc3gpIGFuZCBlYXJsaWVyIGV4Y2VsIGZpbGVzICh4bHMpLiBUbyByZWFkIGluIEV4Y2VsIGZpbGVzLCB1c2UgdGhlIGByZWFkX2V4Y2VsKClgIGZ1bmN0aW9uOgoKYGBge3J9CmxpYnJhcnkocmVhZHhsKQptb3ZpZXNfZnJvbV9leGNlbCA8LSByZWFkX2V4Y2VsKCJkYXRhL21vdmllcy54bHN4Iiwgc2hlZXQgPSAxKQpgYGAKCgojIyBgcmVhZHJgIHBhY2thZ2UKCkZsYXQgZmlsZXMsIHN1Y2ggYXMgY29tbWEtc2VwYXJhdGVkLXZhbHVlICguY3N2KSwgYW5kIG90aGVyIHR5cGVzIG9mIHNpbXBsZSByZWN0YW5ndWxhciBkYXRhLgoKLSBgcmVhZF9jc3ZgOiBSZWFkaW5nIGluIGNvbW1hIHNlcGFyYXRlZCB2YWx1ZSBmaWxlcwoKYGBge3J9CmxpYnJhcnkocmVhZHIpCm1vdmllc19mcm9tX2NzdiA8LSByZWFkX2NzdigiZGF0YS9tb3ZpZXMuY3N2IikKYGBgCgotIGByZWFkX2RlbGltYDogWW91ciBnZW5lcmFsIHB1cnBvc2UgZmxhdCBmaWxlIHJlYWRlciBzcGVjaWZ5aW5nIAoKYGBge3J9CmxpYnJhcnkocmVhZHIpCm1vdmllcyA8LSByZWFkX2RlbGltKCJkYXRhL21vdmllcy5jc3YiLCBkZWxpbSA9ICIsIikKYGBgCgpCZSBzdXJlIHRvIGNoZWNrIHRoZSBoZWxwIGZvciBhbGwgb2YgdGhlc2UgKHZpYSBgP3JlYWRfZGVsaW1gKSB0byBzZWUgYWxsIG9mIHRoZSBvdGhlciBvcHRpb25zIGF2YWlsYWJsZS4gU29tZSB0aGF0IGNvbWUgdXAgZnJlcXVlbnRseSBpbiBvdXIgb3duIGV4cGVyaWVuY2UgYXJlIAoKLSBgbmFgCi0gYHNraXBgCi0gYGNvbF90eXBlc2AKCiMjIGBoYXZlbmAgcGFja2FnZQoKUmVhZGluZyBpbiAiZXh0ZXJuYWwiIGRhdGEgZnJvbSB+fmluZmVyaW9yfn4sIEkgbWVhbiwgb3RoZXIgc29mdHdhcmUgcGFja2FnZXMgbGlrZSBTUFNTIChgLnNhdmApLCBTdGF0YSAoYC5kdGFgKSwgU0FTLCBldGMuIENoZWNrIHRoZSBbaGF2ZW4gcGFja2FnZSB3ZWJzaXRlXShodHRwOi8vaGF2ZW4udGlkeXZlcnNlLm9yZy8pIGZvciBhc3Npc3RhbmNlLgoKCgojIyBZb3VyIHR1cm4KCiMjIyBFeGVyY2lzZSAyLjEKCkxvYWQgdGhlIHBlcmlvZGljIHRhYmxlIGRhdGEgc3RvcmVkIGluIHRoZSBgZGF0YWAgZm9sZGVyLgoKYGBge3J9CiMgV3JpdGUgYW5kIGNoZWNrIHlvdXIgYW5zd2VyIGhlcmUuCmBgYAoKIyMgV2hhdCB5b3UgbGVhcm5lZCBpbiB0aGlzIHNlY3Rpb24KClJlYWQgaW4gZGF0YSBmcm9tIGZpbGVzIGludG8gYGRhdGEuZnJhbWVgcyBmcm9tCgotIEV4Y2VsIGZpbGVzIHVzaW5nIHRoZSBgcmVhZF9leGNlbCgpYCBmdW5jdGlvbiBpbiB0aGUgYHJlYWR4bGAgcGFja2FnZSwKLSBDU1YgZmlsZXMgdXNpbmcgdGhlIGByZWFkX2NzdigpYCBhbmQgYHJlYWRfZGVsaW0oKWAgZnVuY3Rpb25zIGluIHRoZSBgcmVhZHJgIHBhY2thZ2UKLSBkYXRhIGZyb20gcHJvcHJpZXRhcnkgc3RhdGlzdGljYWwgc29mdHdhcmUgdXNpbmcgdGhlIGByZWFkX3Nwc3MoKWAsIGByZWFkX3N0YXRhKClgLCBhbmQgYHJlYWRfc2FzKClgIGZ1bmN0aW9ucyBpbiB0aGUgYGhhdmVuYCBwYWNrYWdlCgoK</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

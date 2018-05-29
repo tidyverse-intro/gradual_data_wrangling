@@ -1,0 +1,162 @@
+---
+title: "Tidy Data: Why and How"
+author: "Ted Laderas and Chester Ismay"
+output: 
+  html_document:
+    code_download: true
+    code_folding: hide
+---
+
+In this section, we'll step back into theory for a bit to talk about where the "tidy" in `tidyverse` comes from and why it is an important feature of data. We'll also see how to transform data from "messy"/wide to "tidy"/long and vice versa.
+
+## What is Tidy Data?
+
+- each row corresponds to an observation
+- each variable is a column
+- each type of observation is in a different table
+
+![](figs/tidy-1.png)
+
+## Why Tidy Data?
+
+Tidy data enables us to do lots of things!
+
+1) Great ggplots
+2) Summarize/slice the data in multiple ways
+3) Enable Exploratory Data Analysis
+4) Ensure assumptions are met for methods
+5) Enable Confirmatory Data Analysis
+
+## Beware of columns masquerading as variables!
+
+
+```{r}
+library(tidyverse)
+library(readr)
+fertility_data <- read_csv("data/total_fertility.csv")
+fertility_data
+```
+
+These columns are actually categories!
+
+Ask yourself: do these columns go together as a single observation for your analysis?
+
+Also ask yourself: What is the unit of observation?
+
+
+## Making data tidy: `gather()`
+
+Use `gather()` when you need to make a bunch of columns into one column. In other words, when you want to convert "wide data" to "long data."
+
+```{r}
+# gather() has three standard arguments: data, key, and value
+# data is usually loaded via the %>%
+# key is what you want your new categorical column to be named
+# value is for the actual values in the columns
+
+# We don't want the `Total fertility rate` column to be included as part of the
+# gather() operation, so we use the `-` notation to exclude it.
+
+fertility_tidy <- fertility_data %>% 
+  gather(key = "Year", value = "fertilityRate", -`Total fertility rate`) %>% 
+  # Re-arrange and rename columns
+  select(Country = `Total fertility rate`, Year, fertilityRate) %>% 
+  # Remove rows with missing values 
+  # (there are countries that have little to no information)
+  na.omit()
+
+head(fertility_tidy)
+```
+
+## Your Task: using this tidy data
+
+### Exercise 3.1
+
+How would we find the average fertility within a year? How about from 1860 on?
+
+```{r}
+# Write and check your answer here
+```
+
+## Making one column into many: `spread()`
+
+Sometimes, you will need to go the other direction: take a long format dataset and make it into a more matrix-like format. This is necessary for such functions such as `heatmap()`.
+
+Let's change things around and make the `Country` column into the variables (columns) in the dataset. 
+
+```{r}
+fertility_wide <- fertility_tidy %>% 
+  # spread() takes a key (Country) and value (fertilityRate) argument
+  # Note that we don't quote here, whereas we do in gather()
+  spread(key = Country, value = fertilityRate) 
+
+fertility_wide
+```
+
+## Your Task - Who is the most democratic?
+
+### Exercise 3.2
+
+Load the `dem_score.csv` dataset in the `data` folder. Tidy it up. Which countries had the highest democracy score in 2007?
+
+Hint: you'll have to use your `dplyr` skills as well.
+
+```{r}
+#enter your answer here
+
+```
+
+## What you learned in this section
+
+How to convert
+
+- wide/messy data into long/tidy data using the `gather()` function in the `tidyr` package
+- long data into wide data using the `spread()` function in the `tidyr` package
+
+---
+
+## What's Next?
+
+We've showed you the bare basics of data wrangling in the tidyverse. There's a ton more!
+
+Where to go next?
+
+- More cool functions in [`tidyr`](http://tidyr.tidyverse.org/)
+    - The [Data Import](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf) RStudio cheatsheet also has a section on `tidyr`
+- <http://tidyverse.org>
+    - `lubridate` for dealing with dates
+    - `stringr` for manipulating strings
+    - `forcats` for working with categorical data
+- Tidyverse community packages
+    - [`naniar`](http://naniar.njtierney.com/) for tidy handling of missing data
+    - [`infer`](https://infer.netlify.com) for tidy statistical inference    
+- ModernDive (by Chester and Albert Kim): http://www.moderndive.com
+- R for Data Science: http://r4ds.had.co.nz
+- [Variety of courses on DataCamp](https://www.datacamp.com/courses/tech:r) 
+
+---
+
+# Closing project
+
+- Try to load in your own data and use `tidyr` to get it into the right format if needed to use `dplyr` to do some data wrangling. If you don't have your own data, do some analyses on the `periodic_table` data you loaded in before using `dplyr`. We'll be around to answer questions. Thanks much!
+
+---
+
+## Keep in Touch!
+
+- Ted: @tladeras https://laderast.github.io
+- Chester: @old_man_chester https://chester.rbind.io
+
+## Conclusion
+
+Data importing, wrangling, and tidying are often forgotten as being important parts of the data analysis pipeline. The `tidyverse` packages as designed to work together to import, tidy, and wrangle all in a consistent framework working with data frames.
+
+## More resources
+
+- Ted and [Jessica Minnier](http://jessicaminnier.com/) created a free DataCamp course covering many of the topics covered here if you'd like to go back and practice on your own. - Chester and [Albert Kim](http://rudeboybert.rbind.io/) wrote a [free introductory textbook](https://moderndive.netlify.com) to help beginners get going with R. 
+- We're biased but we also highly recommend Dave Robinson's [Introduction to the Tidyverse](https://www.datacamp.com/courses/introduction-to-the-tidyverse) course on DataCamp that Chester helped to author in his role at DataCamp. 
+- Alison Hill will also be launching a follow-up DataCamp course on data importing, data taming, and data tidying tentatively titled "Working with Data in the Tidyverse" later this summer. You can track its progress [here](https://trello.com/b/JSLbBqWB/datacamp-course-roadmap).
+
+### Post-session survey
+
+We appreciate and yearn for your constructive and descriptive feedback so that we can improve as educators. To further support this, please feel out this [brief survey](https://goo.gl/forms/8rflopb1QXYclmUq1).

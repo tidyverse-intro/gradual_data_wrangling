@@ -1,0 +1,13 @@
+name: "gRadual Data Wrangling"
+output_dir: "docs"
+navbar:
+  title: "Cascadia R 2018 - Data Wrangling workshop"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Part 1"
+      href: Part1-dplyr_intro.html
+    - text: "Part 2"
+      href: Part2-loading_data.html     
+    - text: "Part 3"
+      href: Part3-why_tidy_data.html
