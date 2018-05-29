@@ -35,3 +35,4 @@ Remember, in this workshop we will adhere the [code of conduct for this conferen
 1. Using the `tidyr` package to reshape/tidy/make data long
 1. Optional: Factors with `forcats` , dates with `lubridate`, and strings with `stringr`
 
+
