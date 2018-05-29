@@ -5,6 +5,7 @@ output:
   html_document:
     code_download: true
     code_folding: hide
+    df_print: paged
 ---
 
 In this section, we'll load in external data using several built-in packages to the `tidyverse`. In particular, we'll cover:
@@ -41,17 +42,17 @@ Flat files, such as comma-separated-value (.csv), and other types of simple rect
 
 - `read_csv`: Reading in comma separated value files
 
-```{r}
-library(readr)
-movies_from_csv <- read_csv("data/movies.csv")
-```
+    ```{r}
+    library(readr)
+    movies_from_csv <- read_csv("data/movies.csv")
+    ```
 
 - `read_delim`: Your general purpose flat file reader. For example, if you have a *tab delimited file*, you can specify `delim` = "\t" ("\t" is how you specify tabs). 
 
-```{r}
-library(readr)
-movies <- read_delim("data/movies.csv", delim = ",")
-```
+    ```{r}
+    library(readr)
+    movies <- read_delim("data/movies.csv", delim = ",")
+    ```
 
 Be sure to check the help for all of these (via `?read_delim`) to see all of the other options available. Some that come up frequently in our own experience are 
 
