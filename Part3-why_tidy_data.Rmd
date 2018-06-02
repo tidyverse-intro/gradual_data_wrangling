@@ -66,17 +66,18 @@ fertility_tidy <- fertility_data %>%
   # (there are countries that have little to no information)
   na.omit()
 
-head(fertility_tidy)
+fertility_tidy
 ```
 
 ## Your Task: using this tidy data
 
 ### Exercise 3.1
 
-How would we find the average fertility within a year? How about from 1860 on?
+How would we find the average fertility for each year? How about from 1860 on?
 
 ```{r}
 # Write and check your answer here
+
 ```
 
 ## Making one column into many: `spread()`

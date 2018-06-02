@@ -34,6 +34,7 @@ The `readxl` package handles loading both 2008 (xlsx) and earlier excel files (x
 ```{r}
 library(readxl)
 movies_from_excel <- read_excel("data/movies.xlsx", sheet = 1)
+movies_from_excel
 ```
 
 ## `readr` package
@@ -45,6 +46,7 @@ Flat files, such as comma-separated-value (.csv), and other types of simple rect
     ```{r}
     library(readr)
     movies_from_csv <- read_csv("data/movies.csv")
+    movies_from_csv
     ```
 
 - `read_delim`: Your general purpose flat file reader. For example, if you have a *tab delimited file*, you can specify `delim` = "\t" ("\t" is how you specify tabs). 
@@ -52,12 +54,13 @@ Flat files, such as comma-separated-value (.csv), and other types of simple rect
     ```{r}
     library(readr)
     movies <- read_delim("data/movies.csv", delim = ",")
+    movies
     ```
 
 Be sure to check the help for all of these (via `?read_delim`) to see all of the other options available. Some that come up frequently in our own experience are 
 
 - `na` - If your missing values are coded differently than `NA`, you can set the value here.
-- `skip` - if there's explanatory text before the header, use this argument to skip these lines. For example, if your header starts at line 4, use `skip`=3
+- `skip` - if there's explanatory text before the header, use this argument to skip these lines. For example, if your header starts at line 4, use `skip = 3` 
 - `col_types` - this is where you have more control on the data types for each column.
 
 ## `haven` package

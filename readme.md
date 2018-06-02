@@ -15,11 +15,11 @@ Please make sure to have this completed prior to the workshop beginning. To part
 
     This can be accomplished by copying the following code into the *Console* in RStudio and pressing Enter. Note that you'll see quite a few lines of code run while the packages are installing. Don't be alarmed. After the packages (and the packages they depend on) are done installing, you should see a `>` waiting for you to enter something new waiting for you in the Console tab of RStudio.
     
-    After all four of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.
+    After all three of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.
 
         install.packages(c("tidyverse", "gapminder", "fivethirtyeight"))
 
-    -   The [`tidyverse`](http://tidyverse.tidyverse.org/) package installs a variety of different packages that will be useful in your analysis that will be the focus of this workshop.
+    -   The [`tidyverse`](http://tidyverse.tidyverse.org/) package installs a variety of different packages that will be useful in your analysis and will be the focus of this workshop.
     -   The [`gapminder`](https://github.com/jennybc/gapminder/blob/master/README.md) package contains a data set made famous by Hans Rosling exploring data on the world's countries.
     -   The [`fivethirtyeight`](http://fivethirtyeight-r.netlify.com/) package contains many datasets used by data journalists at FiveThirtyEight.com.
 
