@@ -29,6 +29,8 @@ Directories and file management is often really tricky for beginners. If you str
 
 ## `readxl` package
 
+The data we will use here comes from the `movies` data frame in the `ggplot2movies` package.
+
 The `readxl` package handles loading both 2008 (xlsx) and earlier excel files (xls). To read in Excel files, use the `read_excel()` function:
 
 ```{r}

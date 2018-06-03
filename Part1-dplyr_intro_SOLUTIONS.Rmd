@@ -1,0 +1,277 @@
+---
+title: "Part 1 - Intro to `dplyr`"
+author: "Chester Ismay"
+output: 
+  html_document:
+    code_download: true
+    code_folding: show
+    df_print: paged
+---
+
+In this section, we'll discuss Data Wrangling/Transformation via the `dplyr` package.  We'll explore ways to
+
+1. choose subsets of data, 
+1. aggregate data to create summaries, 
+1. make new variables, 
+1. and sort your data frames.  
+
+It is recommended you also explore the RStudio Cheatsheet on [Data Transformation](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) as we discuss this content.
+
+### Back to `gapminder`
+
+Here is a look at the `gapminder` data frame in the `gapminder` package.
+
+```{r message=FALSE}
+library(tidyverse)
+library(gapminder)
+gapminder
+```
+
+We recommend always checking out your data first before you hop into your analyses. Simply running the name of the object like we have with `gapminder` above is helpful. The `View()` command (note the capital "V"! R is case sensitive!) is also helpful. Try it out with `View(gapminder)`.
+
+Say we wanted mean life expectancy across all years for Asia
+
+```{r}
+# Base R
+asia <- gapminder[gapminder$continent == "Asia", ]
+mean(asia$lifeExp)
+```
+
+```{r}
+library(dplyr)
+gapminder %>% 
+  filter(continent == "Asia") %>%
+  summarize(mean_exp = mean(lifeExp))
+```
+
+## The pipe `%>%`
+
+`r knitr::include_graphics("figs/pipe.png")` &emsp; &emsp;`r knitr::include_graphics("figs/MagrittePipe.jpg")`
+
+- A way to chain together commands
+- This helps with making your analyses readable and exploratory at the same time
+
+
+# The Five Main Verbs (5MV) of data wrangling
+
+### `filter()` <br> `summarize()` <br> `group_by()` <br> `mutate()` <br> `arrange()`
+
+---
+
+## `filter()`
+
+- Select a subset of the rows of a data frame. 
+- The arguments are the "filters" that you'd like to apply.
+
+```{r}
+library(gapminder); library(dplyr)
+gap_2007 <- gapminder %>% filter(year == 2007)
+gap_2007
+```
+
+- Use `==` to compare a variable to a value.
+- Remember to include quotes around strings, but they are not needed around numbers.
+
+## Your turn
+
+### Exercise 1.1
+
+Choose only Asian rows in the `gapminder` data and provide the name of `asian_countries` to that result.
+
+```{r}
+# Enter and try your answer here.
+# ONE SOLUTION
+asian_countries <- gapminder %>% 
+  filter(continent == "Asia")
+asian_countries
+```
+
+
+## Logical operators
+
+- Use `|` to check for any in multiple filters being true:
+
+```{r}
+gapminder %>% 
+  filter(year == 2002 | continent == "Europe")
+```
+
+- Use `&` or `,` to check for all of multiple filters being true:
+
+```{r}
+gapminder %>% 
+  filter(year == 2002, continent == "Europe")
+```
+
+- Use `%in%` to check for any being true (shortcut to using `|` repeatedly with `==`)
+
+```{r}
+gapminder %>% 
+  filter(country %in% c("Argentina", "Belgium", "Mexico"),
+         year %in% c(1987, 1992))
+```
+
+## Your turn
+
+### Exercise 1.2
+
+Choose only rows corresponding to African or European nations.
+
+```{r}
+# Enter and try your answer here.
+# ONE SOLUTION
+gapminder %>% 
+  filter(continent %in% c("Africa", "Europe"))
+```
+
+
+## `summarize()`
+
+- Any numerical summary that you want to apply to a column of a data frame is specified within `summarize()`.
+
+```{r}
+max_exp_1997 <- gapminder %>% 
+  filter(year == 1997) %>% 
+  summarize(max_exp = max(lifeExp))
+max_exp_1997
+```
+
+### Combining `summarize()` with `group_by()`
+
+When you'd like to determine a numerical summary for all
+levels of a different categorical variable
+
+```{r}
+max_exp_1997_by_cont <- gapminder %>% 
+  filter(year == 1997) %>% 
+  group_by(continent) %>%
+  summarize(max_exp = max(lifeExp))
+max_exp_1997_by_cont
+```
+
+
+### Without the `%>%`
+
+It's hard to appreciate the `%>%` without seeing what the code would look like without it:
+
+```{r}
+max_exp_1997_by_cont <- 
+  summarize(
+    group_by(
+      filter(
+        gapminder, 
+          year == 1997), 
+      continent),
+    max_exp = max(lifeExp))
+max_exp_1997_by_cont
+```
+
+## `mutate()`
+
+- Allows you to 
+    1. create a new variable based on other variables OR
+    2. change the contents of an existing variable
+
+
+1. create a new variable based on other variables
+
+```{r}
+gap_w_gdp <- gapminder %>% mutate(gdp = pop * gdpPercap)
+gap_w_gdp
+```
+
+## `mutate()`
+
+2. change the contents of an existing variable
+
+```{r}
+gap_weird <- gapminder %>% mutate(pop = pop + 1000)
+gap_weird
+```
+
+## `arrange()`
+
+- Reorders the rows in a data frame based on the values of one or more variables
+
+```{r}
+gapminder %>%
+  arrange(year, country)
+```
+
+- Can also put into descending order
+
+```{r desc}
+gapminder %>%
+  filter(year > 2000) %>%
+  arrange(desc(lifeExp))
+```
+
+## Other useful `dplyr` verbs
+
+- `select`
+- `top_n`
+- `sample_n`
+- `slice`
+- `glimpse`
+- `rename`
+
+## Your turn
+
+### Exercise 1.3
+
+Determine which African country had the highest GDP per capita in 1982 using the `gapminder` data in the `gapminder` package.
+
+```{r}
+#Space for your answer here.
+gapminder %>%
+  filter(continent == "Africa", year == 1982) %>% 
+  arrange(desc(gdpPercap))
+```
+
+### Challenge - Exercise 1.3C
+
+For both of these tasks below, use the `bechdel` data frame in the `fivethirtyeight` package:
+
+- Use the `count` function in the `dplyr` package to determine how many movies
+in 2013 fell into each of the different categories for `clean_test`.
+- Determine the percentage of movies that received the value of `"ok"` across all years.
+
+```{r}
+library(fivethirtyeight)
+bechdel %>% 
+  filter(year == 2013) %>% 
+  count(clean_test)
+```
+
+```{r}
+bechdel %>% 
+  summarize(perc_ok = mean(clean_test == "ok") * 100)
+```
+
+
+---
+
+
+## Your turn
+
+### Exercise 1.4
+
+Determine the top five movies in terms of domestic return on investment for 2013 scaled data using the `bechdel` data frame in the `fivethirtyeight` package.
+
+
+```{r}
+#Space for your answer here.
+bechdel %>% 
+  mutate(roi_2013 = domgross_2013 / budget_2013) %>% 
+  top_n(5, roi_2013)
+```
+
+
+## What you learned in this section
+
+Different ways in the `dplyr` package to
+
+- choose subsets of data using the `filter()` verb
+- aggregate data to create summaries using the `summarize()` and `group_by` verbs
+- make new variables using the `mutate()` verb
+- sort your data frames using the `arrange()` verb

@@ -185,10 +185,19 @@ $(document).ready(function () {
   <a href="Part1-dplyr_intro.html">Part 1</a>
 </li>
 <li>
+  <a href="Part1-dplyr_intro_SOLUTIONS.html">Part 1 Solutions</a>
+</li>
+<li>
   <a href="Part2-loading_data.html">Part 2</a>
 </li>
 <li>
+  <a href="Part2-loading_data_SOLUTIONS.html">Part 2 Solutions</a>
+</li>
+<li>
   <a href="Part3-why_tidy_data.html">Part 3</a>
+</li>
+<li>
+  <a href="Part3-why_tidy_data_SOLUTIONS.html">Part 3 Solutions</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -208,19 +217,22 @@ $(document).ready(function () {
 </div>
 
 
-<p>Welcome! This is a workshop for the Cascadia R Conference that is meant to be a gentle introduction to data wrangling using the <code>tidyverse</code> R packages. You’ll find there are lots of functions in the <code>tidyverse</code> designed to help solve your common headaches when working with data and can even make data wrangling somewhat fun!</p>
+<p>Welcome! This is a workshop for the Cascadia R Conference that is meant to be a gentle introduction to data wrangling using the <code>tidyverse</code> R packages. You’ll find there are lots of functions in the <code>tidyverse</code> designed to help solve your common headaches when working with data and can even make data wrangling fun!</p>
 <div id="prerequisites" class="section level2">
 <h2>Prerequisites</h2>
-<p>Please make sure to have this completed prior to the workshop beginning. To participate in this workshop, you’ll need to do the following on your own laptops:</p>
+<p>Please make sure to have this completed prior to the workshop beginning. Reading over all the materials here will help you get an understanding of what is to be expected and a better grounding to dive into the material as the workshop gets started. To participate in this workshop, you’ll need to do the following on your own laptops:</p>
 <ol style="list-style-type: decimal">
 <li>Have the latest version of R AND RStudio installed (<a href="http://moderndive.netlify.com/2-getting-started.html#what-are-r-and-rstudio">Directions are here</a>)</li>
 <li>Be familiar with the <a href="https://ismayc.github.io/rbasics-book/3-rstudiobasics.html#rstudio-layout">basics of the RStudio Interface</a></li>
-<li><p>Have the following R packages installed: <code>tidyverse</code>, <code>gapminder</code>, and <code>fivethirtyeight</code></p>
-<p>This can be accomplished by copying the following code into the <em>Console</em> in RStudio and pressing Enter. Note that you’ll see quite a few lines of code run while the packages are installing. Don’t be alarmed. After the packages (and the packages they depend on) are done installing you should see a <code>&gt;</code> waiting for you to enter something new waiting for you in the Console tab of RStudio. After the packages (and the packages they depend on) are done installing, you should see a <code>&gt;</code> waiting for you to enter something new waiting for you in the Console tab of RStudio.</p>
-<p>After all three of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.</p>
-<pre><code>install.packages(c(&quot;tidyverse&quot;, &quot;gapminder&quot;, &quot;fivethirtyeight&quot;))</code></pre>
+<li><p>Have the following R packages installed: <code>dplyr</code>, <code>tidyr</code>, <code>readr</code>, <code>readxl</code>, <code>haven</code>, <code>gapminder</code>, and <code>fivethirtyeight</code></p>
+<p>This can be accomplished by copying the following code into the <em>Console</em> in RStudio and pressing Enter. Note that you’ll see quite a few lines of code run while the packages are installing. Don’t be alarmed. After the packages (and the packages they depend on) are done installing, you should see a <code>&gt;</code> waiting for you to enter something new waiting for you in the Console tab of RStudio.</p>
+<p>After all of these packages are installed you should see them listed in the Packages tab in the bottom right section of RStudio.</p>
+<pre><code>install.packages(c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;readr&quot;, &quot;readxl&quot;, &quot;haven&quot;, &quot;gapminder&quot;, &quot;fivethirtyeight&quot;))</code></pre>
 <ul>
-<li>The <a href="http://tidyverse.tidyverse.org/"><code>tidyverse</code></a> package installs a variety of different packages that will be useful in your analysis and will be the focus of this workshop.</li>
+<li>The <a href="http://tidyverse.tidyverse.org/"><code>tidyverse</code></a> contains a variety of different packages that will be useful in your analysis and will be the focus of this workshop. We will focus on</li>
+<li>the <a href="http://dplyr.tidyverse.org"><code>dplyr</code></a> package for data wrangling,</li>
+<li>the <a href="http://tidyr.tidyverse.org"><code>tidyr</code></a> package for data reshaping,</li>
+<li>and the <a href="http://readr.tidyverse.org"><code>readr</code></a>, <a href="http://readxl.tidyverse.org"><code>readxl</code></a>, and <a href="http://haven.tidyverse.org"><code>haven</code></a> packages for data importing.</li>
 <li>The <a href="https://github.com/jennybc/gapminder/blob/master/README.md"><code>gapminder</code></a> package contains a data set made famous by Hans Rosling exploring data on the world’s countries.</li>
 <li>The <a href="http://fivethirtyeight-r.netlify.com/"><code>fivethirtyeight</code></a> package contains many datasets used by data journalists at FiveThirtyEight.com.</li>
 </ul></li>
@@ -229,22 +241,22 @@ $(document).ready(function () {
 <div id="important-final-steps" class="section level2">
 <h2>IMPORTANT FINAL STEPS</h2>
 <ul>
-<li>Download the conference materials as a <a href="https://github.com/tidyverse-intro/gradual_data_wrangling/archive/master.zip">ZIP file</a> and extract the files there as a folder on your computer. Note the importance of actually extracting all the files to a folder. This will be particularly important when we talk about importing files.</li>
-<li>Double click on the <strong>gradual_data_wrangling.Rproj</strong> file in that folder to open up an RStudio project containing the files needed for the workshop. This might take a bit the first time. You’ll see <code>gradual_data_wrangling-master</code> in the top right corner when it is ready to go.</li>
+<li><p>Download the conference materials as a <a href="https://github.com/tidyverse-intro/gradual_data_wrangling/archive/master.zip">ZIP file</a> and extract the files there as a folder on your computer. Note the importance of actually extracting all the files to a folder. This will be particularly important when we talk about importing files.</p></li>
+<li><p>Double click on the <strong>gradual_data_wrangling.Rproj</strong> file in that folder to open up an RStudio project containing the files needed for the workshop. This might take a bit the first time. You’ll see <code>gradual_data_wrangling-master</code> in the top right corner when it is ready to go.</p></li>
 </ul>
-<p>You’ll be following along in the <strong>Part1-dplyr_intro.Rmd</strong>, <strong>Part2-loading_data.Rmd</strong>, and <strong>Part3-why_tidy_data.Rmd</strong> files, running the R code in the “chunks” there, and writing your own code to practice.</p>
-<p>Remember, in this workshop we will adhere the <a href="https://cascadiarconf.com/coc/">code of conduct for this conference</a>. Be respectful of your fellow students and let’s learn together.</p>
+<p>You’ll be following along in the <strong>Part1-dplyr_intro.Rmd</strong>, <strong>Part2-loading_data.Rmd</strong>, and <strong>Part3-why_tidy_data.Rmd</strong> files, running the R code in the “chunks” there, and writing your own code to practice. You can also follow along with the webpage for the workshop at <a href="https://cascadiarconf-wrangle.netlify.com" class="uri">https://cascadiarconf-wrangle.netlify.com</a>.</p>
+<p>Remember, in this workshop we will adhere to the <a href="https://cascadiarconf.com/coc/">code of conduct for this conference</a>. Be respectful of your fellow students, workshop leaders, and workshop TAs and let’s learn together.</p>
 </div>
 <div id="outline-of-this-workshop" class="section level2">
 <h2>Outline of this Workshop</h2>
 <ol style="list-style-type: decimal">
-<li>Use <code>dplyr</code> for data wrangling / summarizing
+<li>Using <code>dplyr</code> for data wrangling / summarizing
 <ul>
 <li>Subsetting rows with <code>filter()</code></li>
 <li>Creating a numerical summary with <code>summarize()</code></li>
 <li>Building summaries across groups of one or more variable with <code>group_by() %&gt;% summarize()</code></li>
-<li>Design a new variable using <code>mutate()</code></li>
-<li>Sort the data based on one or more variables with <code>arrange()</code></li>
+<li>Designing a new variable using <code>mutate()</code></li>
+<li>Sorting the data based on one or more variables with <code>arrange()</code></li>
 <li>Using the pipe <code>%&gt;%</code> to chain it all together</li>
 </ul></li>
 <li>Importing data using <code>readxl</code>, <code>readr</code>, and <code>haven</code> packages</li>

@@ -1,0 +1,94 @@
+---
+title: "Part 2 - Loading data with `readxl`, `haven` and `readr` SOLUTIONS"
+author: "Chester Ismay and Ted Laderas"
+output: 
+  html_document:
+    code_download: true
+    code_folding: show
+    df_print: paged
+---
+
+In this section, we'll load in external data using several built-in packages to the `tidyverse`. In particular, we'll cover:
+
+1. Loading excel spreadsheets with `readxl`
+2. Loading in flat text file data, comma separated.
+3. Loading datafiles from SAS/SPSS with `haven`
+
+
+## Some things to keep in mind
+
+For the most part, we will be loading in our data as `data.frame`s or `tbl`s with these packages. 
+
+One thing to keep in mind is that oftentimes, files have a bit of explanatory text and the header is not always going to be on the first line in our files.
+
+**Important note**: The most common problem encountered when reading in data from a file is not reading specifying where to tell RStudio to look for the file. RStudio Projects were created to help with this process.
+
+Look down to just below the words **Console** in the tabs in the bottom left of RStudio. Here you will find the "current working directory." This is where R is working from at the moment. You can assess all files relative to this directory without doing anything extra at all in terms of specifying the path to get to the file. We'll see examples of this in a bit. If you want to read in files from somewhere outside of this current working directory, you'd need to tell R exactly where to find the file. More on this too below.
+
+Directories and file management is often really tricky for beginners. If you struggle with this, that's OK. It will get better as you get more practice. Pay careful attention to the error messages and learn to love the **Files** tab in the bottom right of RStudio. This will help you track down where your files are located relative to the current working directory.
+
+## `readxl` package
+
+The data we will use here comes from the `movies` data frame in the `ggplot2movies` package.
+
+The `readxl` package handles loading both 2008 (xlsx) and earlier excel files (xls). To read in Excel files, use the `read_excel()` function:
+
+```{r}
+library(readxl)
+movies_from_excel <- read_excel("data/movies.xlsx", sheet = 1)
+movies_from_excel
+```
+
+## `readr` package
+
+Flat files, such as comma-separated-value (.csv), and other types of simple rectangular data.
+
+- `read_csv`: Reading in comma separated value files
+
+    ```{r}
+    library(readr)
+    movies_from_csv <- read_csv("data/movies.csv")
+    movies_from_csv
+    ```
+
+- `read_delim`: Your general purpose flat file reader. For example, if you have a *tab delimited file*, you can specify `delim` = "\t" ("\t" is how you specify tabs). 
+
+    ```{r}
+    library(readr)
+    movies <- read_delim("data/movies.csv", delim = ",")
+    movies
+    ```
+
+Be sure to check the help for all of these (via `?read_delim`) to see all of the other options available. Some that come up frequently in our own experience are 
+
+- `na` - If your missing values are coded differently than `NA`, you can set the value here.
+- `skip` - if there's explanatory text before the header, use this argument to skip these lines. For example, if your header starts at line 4, use `skip = 3` 
+- `col_types` - this is where you have more control on the data types for each column.
+
+## `haven` package
+
+Reading in "external" data from ~~inferior~~, I mean, other software packages like SPSS (`.sav`), Stata (`.dta`), SAS, etc. Check the [haven package website](http://haven.tidyverse.org/) for assistance.
+
+## Your turn
+
+### Exercise 2.1
+
+Load the periodic table data stored in the `data` folder. (Hint: you'll have to use the `haven` package - look for a `read_` function that can read the `.sav` file format.)
+
+```{r}
+# Write and check your answer here.
+# ONE SOLUTION
+library(haven)
+periodic_table_data <- read_spss("data/periodic_table.sav")
+# periodic_table_data <- read_sav("data/periodic_table.sav") also works
+```
+
+## What you learned in this section
+
+Read in data from files into `data.frame`s from
+
+- Excel files using the `read_excel()` function in the `readxl` package,
+- CSV files using the `read_csv()` and `read_delim()` functions in the `readr` package
+- data from proprietary statistical software using the `read_spss()`, `read_stata()`, and `read_sas()` functions in the `haven` package
+
+

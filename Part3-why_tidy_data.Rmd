@@ -31,14 +31,14 @@ Tidy data enables us to do lots of things!
 ## Beware of columns masquerading as variables!
 
 
-```{r}
+```{r warning=FALSE}
 library(tidyverse)
 library(readr)
 fertility_data <- read_csv("data/total_fertility.csv")
 fertility_data
 ```
 
-These columns are actually categories!
+These columns are actually categories! `1800` doesn't correspond to the values that follow below it. The same is true for any of the other column headers here. They correspond to the year in which the data is measured. That data is on fertility rate.
 
 Ask yourself: do these columns go together as a single observation for your analysis?
 
@@ -73,7 +73,7 @@ fertility_tidy
 
 ### Exercise 3.1
 
-How would we find the average fertility for each year? How about from 1860 on?
+As a refresher from earlier in the workshop, how would we find the average fertility for each year? How about from 1860 on?
 
 ```{r}
 # Write and check your answer here
@@ -146,8 +146,8 @@ Where to go next?
 
 ## Keep in Touch!
 
-- Ted: @tladeras https://laderast.github.io
-- Chester: @old_man_chester https://chester.rbind.io
+- Ted: [@tladeras](https://twitter.com/tladeras) https://laderast.github.io
+- Chester: [@old_man_chester](https://twitter.com/old_man_chester) https://chester.rbind.io
 
 ## Conclusion
 
@@ -155,7 +155,8 @@ Data importing, wrangling, and tidying are often forgotten as being important pa
 
 ## More resources
 
-- Ted and [Jessica Minnier](http://jessicaminnier.com/) created a free DataCamp course covering many of the topics covered here if you'd like to go back and practice on your own. - Chester and [Albert Kim](http://rudeboybert.rbind.io/) wrote a [free introductory textbook](https://moderndive.netlify.com) to help beginners get going with R. 
+- Ted and [Jessica Minnier](http://jessicaminnier.com/) created a free DataCamp course covering many of the topics covered here if you'd like to go back and practice on your own. 
+- Chester and [Albert Kim](http://rudeboybert.rbind.io/) wrote a [free introductory textbook](https://moderndive.netlify.com) to help beginners get going with R. 
 - We're biased but we also highly recommend Dave Robinson's [Introduction to the Tidyverse](https://www.datacamp.com/courses/introduction-to-the-tidyverse) course on DataCamp that Chester helped to author in his role at DataCamp. 
 - Alison Hill will also be launching a follow-up DataCamp course on data importing, data taming, and data tidying tentatively titled "Working with Data in the Tidyverse" later this summer. You can track its progress [here](https://trello.com/b/JSLbBqWB/datacamp-course-roadmap).
 

@@ -7,7 +7,13 @@ navbar:
       href: index.html
     - text: "Part 1"
       href: Part1-dplyr_intro.html
+    - text: "Part 1 Solutions"
+      href: Part1-dplyr_intro_SOLUTIONS.html      
     - text: "Part 2"
       href: Part2-loading_data.html     
+    - text: "Part 2 Solutions"
+      href: Part2-loading_data_SOLUTIONS.html       
     - text: "Part 3"
       href: Part3-why_tidy_data.html
+    - text: "Part 3 Solutions"
+      href: Part3-why_tidy_data_SOLUTIONS.html      
