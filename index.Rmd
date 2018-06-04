@@ -10,9 +10,10 @@ Prerequisites
 
 Please make sure to have this completed prior to the workshop beginning. Reading over all the materials here will help you get an understanding of what is to be expected and a better grounding to dive into the material as the workshop gets started. To participate in this workshop, you'll need to do the following on your own laptops:
 
-1.  Have the latest version of R AND RStudio installed ([Directions are here](http://moderndive.netlify.com/2-getting-started.html#what-are-r-and-rstudio))
-2.  Be familiar with the [basics of the RStudio Interface](https://ismayc.github.io/rbasics-book/3-rstudiobasics.html#rstudio-layout)
-3.  Have the following R packages installed: `dplyr`, `tidyr`, `readr`, `readxl`, `haven`, `gapminder`, and `fivethirtyeight`
+1. Have the latest version of R AND RStudio installed ([Directions are here](http://moderndive.netlify.com/2-getting-started.html#what-are-r-and-rstudio))
+2. Be familiar with the [basics of the RStudio Interface](https://ismayc.github.io/rbasics-book/3-rstudiobasics.html#rstudio-layout)
+3. We further recommend you read through the first two chapters of the free [ModernDive](http://moderndive.netlify.com) textbook to get up-to-speed/refreshed on R programming. It isn't essential that you do everything there, but we will expect you have gone through this material prior to the workshop starting. If you have questions about this prerequisite material, please reach out!
+4. Have the following R packages installed: `dplyr`, `tidyr`, `readr`, `readxl`, `haven`, `gapminder`, and `fivethirtyeight`
 
     This can be accomplished by copying the following code into the *Console* in RStudio and pressing Enter. Note that you'll see quite a few lines of code run while the packages are installing. Don't be alarmed. After the packages (and the packages they depend on) are done installing, you should see a `>` waiting for you to enter something new waiting for you in the Console tab of RStudio.
     
